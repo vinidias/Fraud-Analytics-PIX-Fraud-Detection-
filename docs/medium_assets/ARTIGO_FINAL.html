@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Deep Learning, GNN, Optuna — o que venceu a fraude no PIX</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 720px; margin: 40px auto; padding: 20px; line-height: 1.7; color: #292929; font-size: 18px; }
+  h1 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 40px; line-height: 1.2; color: #0a0a0a; margin-bottom: 12px; }
+  h2 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 26px; color: #0a0a0a; margin-top: 44px; margin-bottom: 16px; }
+  h3 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 20px; color: #0a0a0a; margin-top: 28px; }
+  p { margin: 18px 0; }
+  ul, ol { margin: 18px 0; padding-left: 30px; }
+  li { margin: 8px 0; }
+  blockquote { border-left: 3px solid #0a0a0a; padding-left: 20px; color: #555; font-style: italic; margin: 24px 0; }
+  code { background: #f2f2f2; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 15px; }
+  pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.4; border: 1px solid #e0e0e0; margin: 20px 0; white-space: pre; }
+  pre code { background: transparent; padding: 0; font-size: 13px; }
+  hr { border: none; border-top: 1px solid #e0e0e0; margin: 36px 0; }
+  .subtitle { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 21px; color: #757575; font-weight: 400; margin-bottom: 24px; line-height: 1.4; }
+  .meta { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #757575; margin-bottom: 32px; }
+  .img-placeholder {
+    border: 2px dashed #0a66c2;
+    background: #f0f7ff;
+    padding: 24px 20px;
+    margin: 24px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .img-placeholder .icon { font-size: 24px; margin-bottom: 8px; }
+  .img-placeholder .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
+  .img-placeholder .filename { font-family: 'Courier New', monospace; font-size: 16px; color: #0a66c2; font-weight: bold; background: white; padding: 8px 16px; border-radius: 4px; display: inline-block; }
+  .img-placeholder .desc { font-size: 14px; color: #666; margin-top: 8px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>Deep Learning, GNN, Optuna: testei tudo contra uma árvore de decisão — e ela venceu</h1>
+
+<p class="subtitle">15 experimentos, 12 milhões de transações e uma lição incômoda sobre o hype da IA</p>
+
+<p class="meta">Vinicius Dias · 2026 · ~10 min de leitura</p>
+
+<hr>
+
+<p>Quando comecei a trabalhar com detecção de fraude no PIX, todo mundo tinha uma sugestão:</p>
+
+<ul>
+<li>"Usa deep learning, é o futuro"</li>
+<li>"Faz um ensemble de 5 modelos, vai bater tudo"</li>
+<li>"Otimiza com Optuna, tira mais 3%"</li>
+<li>"GNN é o estado da arte para fraude com grafo"</li>
+</ul>
+
+<p>Testei <strong>todos</strong>. Também testei o que ninguém recomenda: <strong>um CatBoost com configurações default e três features criadas à mão</strong>.</p>
+
+<p>O resultado foi... constrangedor para a indústria.</p>
+
+<hr>
+
+<h2>O problema</h2>
+
+<p>O <strong>PIX</strong> é o sistema de pagamentos instantâneos do Banco Central do Brasil. Em 2026, processa <strong>~5,9 bilhões de transferências por mês</strong>, com liquidação <strong>irreversível</strong> e <strong>0,77% de taxa de fraude</strong>.</p>
+
+<p>Isso cria um problema técnico com 4 facetas:</p>
+
+<pre><code>+--------------------------+---------------------------------------------+
+| Desafio                  | Por que é difícil                           |
++==========================+=============================================+
+| Desbalanceamento extremo | 0,77% de fraude -&gt; acurácia engana          |
+| Drift temporal           | Taxa cresce 20x ao longo do mês             |
+| Custo assimétrico        | FN custa ~R$ 4.000; FP custa ~R$ 20         |
+| Explicabilidade          | Regulação exige justificativa por transação |
++--------------------------+---------------------------------------------+</code></pre>
+
+<hr>
+
+<h2>O que testei</h2>
+
+<p>Foram <strong>15 experimentos</strong> documentados em um repositório público:</p>
+
+<p><strong>Modelos clássicos:</strong> LightGBM, XGBoost, CatBoost, Regressão logística, Random Forest.</p>
+
+<p><strong>Deep Learning:</strong> MLP (3 camadas + focal loss), TabNet (Google, 2019), AutoEncoder, GNN (GraphSAGE bipartido).</p>
+
+<p><strong>Técnicas de otimização:</strong> Ensemble (soft-voting + stacking), Optuna (50 trials), Calibração isotônica.</p>
+
+<p><strong>Datasets:</strong> PIX Fraud BR (2M sintéticas), Xente (95k REAIS de Uganda), IEEE-CIS (590k reais de cartão), PaySim, MoMTSim, BAF.</p>
+
+<p><strong>Total: 12,3 milhões de transações processadas.</strong></p>
+
+<hr>
+
+<h2>O resultado que ninguém queria ouvir</h2>
+
+<pre><code>+-------------------------+--------+
+| Modelo                  | PR-AUC |
++=========================+========+
+| CatBoost (2M) -- MELHOR | 0,9614 |
+| CatBoost (500k)         | 0,9603 |
+| Ensemble (stacking)     | 0,9597 |
+| XGBoost                 | 0,9587 |
+| LightGBM                | 0,9484 |
+| MLP (focal loss)        | 0,9206 |
+| TabNet                  | 0,8753 |
+| GNN (GraphSAGE)         | 0,3928 |
+| AutoEncoder             | 0,2280 |
++-------------------------+--------+</code></pre>
+
+<div class="img-placeholder">
+  <div class="icon">🖼️</div>
+  <div class="label">Inserir imagem aqui</div>
+  <div class="filename">grafico_01_modelos.png</div>
+  <div class="desc">Comparação de 9 modelos por PR-AUC</div>
+</div>
+
+<p><strong>CatBoost com configurações default venceu todos os competidores.</strong></p>
+
+<ul>
+<li>Ensemble de 3 GBDTs (que deveria ser "mais robusto"): <strong>-0,06pp</strong></li>
+<li>Optuna (que deveria "tirar 3%"): <strong>-0,64pp</strong> no teste</li>
+<li>Deep Learning (que deveria "bater tudo"): <strong>-4,08pp</strong></li>
+<li>GNN (que deveria "capturar rede"): <strong>-56,75pp</strong></li>
+</ul>
+
+<hr>
+
+<h2>Por que o modelo mais simples venceu</h2>
+
+<h3>1. O sinal está nas features, não no modelo</h3>
+
+<p>A feature mais importante do SHAP <strong>não foi criada pelo algoritmo</strong>. Fui eu que criei, à mão:</p>
+
+<pre><code>drain_score = (1 - residual_balance_ratio) * receiver_amount_ratio * (is_night + 1)</code></pre>
+
+<p><strong>Traduzindo para o português</strong>: "quanto mais o pagador foi drenado, mais o recebedor recebeu, e mais noturno foi o horário, mais provável é fraude".</p>
+
+<p>Essa feature combinou <strong>3 sinais</strong> que o modelo não conseguiria aprender sozinho (porque a interação tripla é rara nos dados).</p>
+
+<p><strong>No SHAP, <code>drain_score</code> ficou em 3º lugar — atrás só dos saldos residuais.</strong> 12,8% de toda a decisão do modelo vem dela.</p>
+
+<div class="img-placeholder">
+  <div class="icon">🖼️</div>
+  <div class="label">Inserir imagem aqui</div>
+  <div class="filename">grafico_03_shap.png</div>
+  <div class="desc">SHAP importance — drain_score no top 3</div>
+</div>
+
+<h3>2. Gradient boosting é imbatível em tabular</h3>
+
+<p>A literatura já sabia disso (Shwartz-Ziv &amp; Armon, 2022), mas eu precisei provar por mim mesmo: <strong>em dados tabulares, GBDT bate DL. Sempre.</strong></p>
+
+<p>O motivo: gradient boosting cria <strong>fronteiras piecewise-constantes</strong> (splits binários). Redes neurais tentam aprender <strong>funções contínuas</strong> — o que exige 10-100x mais dados para convergir em tabular.</p>
+
+<h3>3. Tuning cego é overfitting disfarçado</h3>
+
+<p>O Optuna, com 50 trials, <strong>piorou</strong> o modelo:</p>
+
+<pre><code>+----------------+--------+--------+---------+
+| Métrica        | Base   | Optuna | Delta   |
++================+========+========+=========+
+| PR-AUC (teste) | 0,9598 | 0,9533 | -0,64pp |
+| Brier          | 0,0122 | 0,0179 | +46%    |
++----------------+--------+--------+---------+</code></pre>
+
+<div class="img-placeholder">
+  <div class="icon">🖼️</div>
+  <div class="label">Inserir imagem aqui</div>
+  <div class="filename">grafico_05_optuna.png</div>
+  <div class="desc">Optuna 50 trials — melhor trial pior que default</div>
+</div>
+
+<p>Por quê? Porque o <strong>validation set</strong> usado no tuning tinha distribuição diferente do teste (drift temporal). O Optuna otimizou para o "clima" do dia 18, não do dia 31.</p>
+
+<p><strong>Lição</strong>: em fraude, tuning deve usar <strong>walk-forward cross-validation</strong>, não hold-out único.</p>
+
+<h3>4. Deep learning falha em fraude PIX por 3 motivos</h3>
+
+<p><strong>MLP</strong> (0,9206): rede neural pura não captura interações condicionais. Precisa de features explícitas.</p>
+
+<p><strong>TabNet</strong> (0,8753): attention ajuda em texto/imagem, mas em tabular ela compete com <strong>feature selection</strong> — que o GBDT faz nativamente.</p>
+
+<p><strong>AutoEncoder</strong> (0,2280): <strong>o pior resultado de todos</strong>. Fraude PIX <strong>não é outlier</strong> — é uma transação <strong>estruturalmente diferente</strong>: combinação de horário + drenagem + recebedor-100%. O AutoEncoder só vê magnitude de erro, não padrão condicional.</p>
+
+<h3>5. GNN precisa de rede real, não sintética</h3>
+
+<p>O GraphSAGE bipartido deu <strong>-56,75pp</strong>. O motivo é simples: o dataset sintético <strong>não simula redes de laranjas</strong> — cada pagador e recebedor aparece uma única vez. O grafo não tem estrutura para a GNN aprender.</p>
+
+<p><strong>Quando GNN valeria a pena</strong>: dataset com &gt;10M transações, milhares de contas que transacionam entre si, e evidência de <strong>clusters de fraude</strong>. Nosso dataset não tem nada disso.</p>
+
+<hr>
+
+<h2>A descoberta mais inesperada</h2>
+
+<p>Um dos experimentos era o <strong>cross-dataset benchmark</strong>: rodar o <strong>mesmo pipeline CatBoost</strong> em 5 datasets públicos.</p>
+
+<pre><code>+--------------+------------------------+--------+----------+
+| Dataset      | Tipo                   | PR-AUC | vs PIX   |
++==============+========================+========+==========+
+| MoMTSim      | Mobile money sintético | 0,9712 | +0,98pp  |
+| Xente (REAL) | Mobile money REAL      | 0,9672 | +0,58pp  |
+| PIX Fraud BR | PIX sintético          | 0,9614 | baseline |
+| IEEE-CIS     | Cartão real            | 0,5067 | -45,47pp |
+| BAF          | Bank account sintético | 0,1689 | -79,25pp |
++--------------+------------------------+--------+----------+</code></pre>
+
+<div class="img-placeholder">
+  <div class="icon">🖼️</div>
+  <div class="label">Inserir imagem aqui</div>
+  <div class="filename">grafico_07_cross_dataset.png</div>
+  <div class="desc">Cross-dataset benchmark — 5 datasets + PIX</div>
+</div>
+
+<p><strong>O pipeline generalizou para Xente (dado REAL) — superando o PIX Fraud BR.</strong></p>
+
+<p>Isso prova 3 coisas:</p>
+
+<ol>
+<li>A arquitetura <strong>não é overfit</strong> ao dataset do PIX</li>
+<li>O <strong>método</strong> (features contextuais + CatBoost + split temporal) <strong>generaliza</strong> para mobile money</li>
+<li>Quando falha (IEEE-CIS, BAF), <strong>não é falha do método</strong> — é <strong>drift adversarial</strong> (BAF) ou <strong>feature space diferente</strong> (IEEE-CIS)</li>
+</ol>
+
+<hr>
+
+<h2>O experimento que deu errado (e virou diferencial)</h2>
+
+<p>Calibração isotônica é uma técnica clássica para melhorar probabilidades. Aplicada ao nosso melhor modelo:</p>
+
+<pre><code>+---------+---------+----------+---------+
+| Métrica | Base    | Isotonic | Delta   |
++=========+=========+==========+=========+
+| PR-AUC  | 0,9598  | 0,9545   | -0,53pp |
+| Brier   | 0,01174 | 0,01215  | +3,5%   |
++---------+---------+----------+---------+</code></pre>
+
+<p><strong>Piorou tudo.</strong> Por quê?</p>
+
+<ol>
+<li><strong>Calibration set com só ~380 fraudes</strong> — isotonic precisa de mais positivos</li>
+<li><strong>CatBoost já estava bem calibrado</strong> (Brier 0,01174 é excelente)</li>
+<li><strong>Split interno removeu 20% do treino</strong> — o modelo base ficou pior</li>
+</ol>
+
+<p><strong>Lição</strong>: calibração não é universal. Reportar como falha é mais honesto que forçar sucesso.</p>
+
+<hr>
+
+<h2>O que aprendi (e que você pode aplicar)</h2>
+
+<h3>Para fraude em geral</h3>
+<ol>
+<li><strong>Invista em features antes de investir em modelos</strong>. Um <code>drain_score</code> bem desenhado vale mais que 3 camadas de LSTM.</li>
+<li><strong>Split temporal é obrigatório</strong>. Split aleatório vaza futuro e infla PR-AUC em +5-10pp.</li>
+<li><strong>Métricas corretas importam</strong>. Nunca acurácia. Use PR-AUC + Recall@k%.</li>
+<li><strong>Documente resultados negativos</strong>. Saber onde o método falha vale mais que "meu modelo deu 0,96".</li>
+</ol>
+
+<h3>Para produção</h3>
+<ol start="5">
+<li><strong>Threshold ótimo ≠ threshold operacional</strong>. Calcule capacidade de revisão (quantos casos/dia seu time consegue revisar?).</li>
+<li><strong>Break-even é mais importante que ROI</strong>. Nosso ROI é 28,6x, mas o break-even é <strong>R$ 847 por revisão</strong> — ou seja, mesmo com custo 56x maior, continua valendo a pena.</li>
+<li><strong>SHAP nativo é obrigatório</strong>. Regulação exige explicar cada bloqueio.</li>
+</ol>
+
+<h3>Para portfólio</h3>
+<ol start="8">
+<li><strong>Resultado negativo é diferencial</strong>. "Optuna piorou -0,64%" é mais raro que "meu modelo deu 0,99".</li>
+<li><strong>Cross-dataset prova generalização</strong>. Rodar em 5 datasets demonstra rigor que 1 dataset não demonstra.</li>
+<li><strong>O código importa menos que o processo</strong>. Split temporal, PR-AUC, SHAP, ROI — são os 4 pilares.</li>
+</ol>
+
+<hr>
+
+<h2>Conclusão</h2>
+
+<p>Depois de <strong>15 experimentos, 12,3 milhões de transações e 5 datasets</strong>, a conclusão é incômoda:</p>
+
+<blockquote>
+<p><strong>O sinal em fraude está nas features, não no modelo.</strong></p>
+<p>Um CatBoost com configurações default + 3 features contextuais bem desenhadas <strong>bate</strong> deep learning, GNN, ensemble e tuning cego.</p>
+<p><strong>O ganho real em produção não vem de 0,96 vs 0,97 — vem de features melhores + threshold operacional + explicabilidade.</strong></p>
+</blockquote>
+
+<p>Isso não é uma derrota para IA. É uma vitória para <strong>rigor metodológico</strong> — que, na minha opinião, é o que separa um analista júnior de um sênior.</p>
+
+<hr>
+
+<h2>Código e dados</h2>
+
+<p>O projeto inteiro está em <strong><a href="https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-">github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-</a></strong>:</p>
+
+<ul>
+<li>41 commits, 15 fases de análise</li>
+<li>8 gráficos analíticos</li>
+<li>5 páginas no dashboard Streamlit</li>
+<li>12,3M transações processadas</li>
+<li>CI verde</li>
+</ul>
+
+<p><strong>Se você trabalha com detecção de fraude e quer conversar sobre esses resultados, me chama no <a href="https://www.linkedin.com/in/vinicius-dias/">LinkedIn</a>.</strong></p>
+
+<hr>
+
+<p style="color:#757575; font-size:15px; font-style:italic;">Este artigo resume 15 experimentos documentados em um repositório público. Todos os resultados negativos (Optuna, GNN, isotonic, ensemble) estão documentados com a mesma seriedade que os positivos.</p>
+
+</body>
+</html>
