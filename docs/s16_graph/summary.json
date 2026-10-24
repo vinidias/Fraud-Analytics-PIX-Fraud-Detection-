@@ -1,0 +1,127 @@
+{
+  "dataset": "pix-fraud-br",
+  "sample": 100000,
+  "n_features_total": 31,
+  "n_base": 16,
+  "n_new": 15,
+  "ganho_pp": -0.06,
+  "resultados": [
+    {
+      "modelo": "CatBoost (base s07)",
+      "n_train": 95146,
+      "n_features": 16,
+      "pr_auc": 0.959,
+      "brier": 0.00917,
+      "f1": 0.8961,
+      "precision": 0.9324,
+      "recall": 0.8625,
+      "tempo_s": 8.0
+    },
+    {
+      "modelo": "CatBoost (+ graph)",
+      "n_train": 95146,
+      "n_features": 25,
+      "pr_auc": 0.958,
+      "brier": 0.00904,
+      "f1": 0.8983,
+      "precision": 0.9138,
+      "recall": 0.8833,
+      "tempo_s": 8.3
+    },
+    {
+      "modelo": "CatBoost (+ warming)",
+      "n_train": 95146,
+      "n_features": 20,
+      "pr_auc": 0.9586,
+      "brier": 0.00927,
+      "f1": 0.9048,
+      "precision": 0.9414,
+      "recall": 0.8708,
+      "tempo_s": 8.2
+    },
+    {
+      "modelo": "CatBoost (+ velocity)",
+      "n_train": 95146,
+      "n_features": 18,
+      "pr_auc": 0.9608,
+      "brier": 0.00892,
+      "f1": 0.8998,
+      "precision": 0.9214,
+      "recall": 0.8792,
+      "tempo_s": 8.6
+    },
+    {
+      "modelo": "CatBoost (+ ALL)",
+      "n_train": 95146,
+      "n_features": 31,
+      "pr_auc": 0.9584,
+      "brier": 0.00894,
+      "f1": 0.8975,
+      "precision": 0.8831,
+      "recall": 0.9125,
+      "tempo_s": 9.3
+    }
+  ],
+  "top_features": [
+    {
+      "feature": "saldo_anterior_recebedor",
+      "importance": 25.932162721673766
+    },
+    {
+      "feature": "residual_balance_ratio",
+      "importance": 11.665136288835805
+    },
+    {
+      "feature": "saldo_posterior_pagador",
+      "importance": 10.109044225661922
+    },
+    {
+      "feature": "receiver_amount_ratio",
+      "importance": 8.45426260283319
+    },
+    {
+      "feature": "hora_dia",
+      "importance": 7.663261168445254
+    },
+    {
+      "feature": "saldo_anterior_pagador",
+      "importance": 6.709827551333902
+    },
+    {
+      "feature": "drain_score",
+      "importance": 6.694533998839265
+    },
+    {
+      "feature": "log_amount",
+      "importance": 4.911519661062177
+    },
+    {
+      "feature": "saldo_posterior_recebedor",
+      "importance": 4.0249004762667075
+    },
+    {
+      "feature": "amount",
+      "importance": 3.3423736133811626
+    },
+    {
+      "feature": "is_workday",
+      "importance": 1.5599912256218944
+    },
+    {
+      "feature": "night_x_residual",
+      "importance": 1.4963316654831724
+    },
+    {
+      "feature": "night_x_ratio",
+      "importance": 1.1971475082458434
+    },
+    {
+      "feature": "warming_ratio",
+      "importance": 0.9760512759369507
+    },
+    {
+      "feature": "limit_x_residual",
+      "importance": 0.9733699740279367
+    }
+  ]
+}
