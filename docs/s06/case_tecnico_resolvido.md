@@ -121,6 +121,28 @@ Simulação financeira com **capacidade operacional** (300 revisões/dia):
 
 ---
 
+## Referência visual (para usar em apresentação)
+
+As figuras abaixo estão em `docs/images/` — prontas para slide deck:
+
+| Gráfico | O que mostra | Uso em slide |
+|---|---|---|
+| `01_model_comparison.png` | 9 modelos comparados | "Melhor modelo: CatBoost 0,9614" |
+| `02_fraud_by_hour.png` | 46,8% fraude às 4h | "Onde está o aumento" |
+| `03_shap_importance.png` | `drain_score` top 3 | "O que o modelo aprendeu" |
+| `04_roi_curve.png` | ROI × threshold | "Quanto revisar por dia" |
+| `05_walk_forward.png` | Modelo não degrada | "Estabilidade operacional" |
+| `06_optuna_trials.png` | Tuning piorou | "Rigor metodológico" |
+| `07_real_examples.png` | 3 fraudes explicadas | "Exemplo concreto para o stakeholder" |
+
+**Estrutura recomendada de 5 slides**:
+
+1. **Situação** — 20× aumento em 1 mês · gráfico `02`
+2. **Análise** — 3 sinais contextuais · gráfico `03`
+3. **Modelo** — CatBoost 0,9614 · gráfico `01`
+4. **Operação** — threshold + capacity + ROI · gráfico `04`
+5. **Recomendação** — regra noturna + modelo + monitoramento · gráfico `07`
+
 ## Referência cruzada
 
 Os números acima vêm de:

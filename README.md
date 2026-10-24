@@ -48,6 +48,11 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 ### Optuna — resultado honesto (pior que default)
 ![Optuna trials](docs/images/06_optuna_trials.png)
 
+### Exemplos reais — 3 fraudes com explicação SHAP
+![Real examples](docs/images/07_real_examples.png)
+
+> **Padrão consistente**: recebedor com saldo baixo (conta-laranja), horário de madrugada (4-5h), drenagem total (residual ≈ 0), recebedor fica com 100% do valor.
+
 ---
 
 ## 📂 Estrutura
@@ -158,6 +163,57 @@ streamlit run dashboards/s05/app.py
 - Bibliotecas: [CatBoost](https://catboost.ai/), [SHAP](https://shap.readthedocs.io/), [pyod](https://pyod.dev/), [Optuna](https://optuna.org/)
 
 ---
+
+## ⚡ Como rodar em 3 comandos
+
+```bash
+git clone https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-.git
+cd Fraud-Analytics-PIX-Fraud-Detection-
+pip install -r requirements.txt && python scripts/adapters/pix_fraud_br.py && python scripts/eda_pix_fraud_br.py
+```
+
+O terceiro comando baixa o dataset (2M PIX), roda EDA e gera relatórios em `docs/s07_pix_fraud_br/`.
+
+Para o dashboard:
+```bash
+streamlit run dashboards/s05/app.py
+```
+
+## 📚 Lições aprendidas (honestas)
+
+### ✅ O que funcionou
+- **Engenharia de features contextuais** (`drain_score`, `night_x_ratio`) — o sinal mora aqui
+- **CatBoost default** — bateu todos os 8 competidores
+- **Split temporal rigoroso** + PR-AUC (nunca acurácia)
+- **SHAP** — explicabilidade sem sacrificar performance
+- **Documentar resultados negativos** — o que não funcionou é tão valioso quanto o que funcionou
+
+### ⚠️ O que NÃO funcionou (e por quê)
+| Tentativa | Resultado | Lição |
+|---|---|---|
+| **Ensemble LGBM+XGB+CB** | -0,06% vs CatBoost | 3 GBDTs correlacionados não formam ensemble útil |
+| **Optuna (50 trials)** | -0,64% no teste | Overfitting ao validation viesado (drift temporal) |
+| **Deep Learning (MLP, TabNet)** | -4pp, -8,5pp | DL não bate GBDT em tabular |
+| **AutoEncoder (anomalia)** | -73pp (0,23 vs 0,96) | Fraude PIX não é outlier puro — é **contextual** |
+| **Escalar 4x dados** | +0,11pp (2M vs 500k) | Modelo já estava saturado em 500k |
+
+### 🎯 A conclusão mestre
+> **O sinal em fraude está nas features, não no modelo.** CatBoost default + features contextuais bem desenhadas + SHAP + rigor metodológico bate qualquer tentativa de "hype" (deep learning, ensemble, tuning cego).
+
+## 🏆 Comparação com estado da arte
+
+Como nosso resultado se posiciona vs. o que existe em literatura/produção:
+
+| Abordagem | Fonte | PR-AUC | Contexto |
+|---|---|---|---|
+| **Nosso (CatBoost + features)** | este repo | **0,9614** | PIX, 2M tx, split temporal |
+| Fraude de cartão (ULB) — baseline | literatura | 0,85–0,92 | 284k tx, 0,17% fraude |
+| IEEE-CIS Fraud Detection (Kaggle) — top 1% | Kaggle 2019 | 0,94–0,96 | cartão + e-commerce |
+| Feedzai OpenML (produção) | Feedzai | n/a | foco em streaming, não batch |
+| Fraud Detection Handbook (Carcillo et al.) | 2018 | 0,80–0,90 | literatura clássica |
+| Deep learning para tabular | Shwartz-Ziv & Armon (2022) | igual ou pior que GBDT | confirma nossa hipótese |
+
+**Interpretação**: 0,9614 em PIX é **competitivo com estado da arte** (IEEE-CIS top 1%), e o dataset é sintético — o número absoluto importa menos que o **processo** (split temporal, feature engineering, explicabilidade, ROI). O ganho real de produção não vem de 0,96 vs 0,97 — vem de **threshold operacional + integração com device/location intelligence**.
 
 ## 🚀 Deploy
 
