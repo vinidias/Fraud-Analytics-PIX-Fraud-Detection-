@@ -24,7 +24,6 @@ from sklearn.metrics import (
 )
 from sklearn.preprocessing import StandardScaler
 
-from pyod.models.auto_encoder import AutoEncoder
 from pyod.models.iforest import IForest
 from pyod.models.lof import LOF
 from pyod.models.ocsvm import OCSVM
@@ -34,8 +33,17 @@ MODELS = {
     "IForest": lambda: IForest(contamination=0.01, random_state=42, n_estimators=200),
     "LOF":     lambda: LOF(contamination=0.01, n_neighbors=20),
     "OCSVM":   lambda: OCSVM(contamination=0.01, kernel="rbf", gamma="auto"),
-    "AutoEnc": lambda: AutoEncoder(contamination=0.01, epoch_num=20, hidden_neuron_list=[32, 16, 32], random_state=42),
 }
+
+# AutoEncoder requer torch (instalação ~2GB). Habilitar com --with-autoenc se instalado.
+try:
+    from pyod.models.auto_encoder import AutoEncoder
+    MODELS["AutoEnc"] = lambda: AutoEncoder(
+        contamination=0.01, epoch_num=20,
+        hidden_neuron_list=[32, 16, 32], random_state=42,
+    )
+except Exception:
+    pass
 
 
 def recall_at_k(y_true: np.ndarray, scores: np.ndarray, k_pct: float) -> float:
