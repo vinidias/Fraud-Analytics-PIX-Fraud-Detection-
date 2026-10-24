@@ -1,0 +1,30 @@
+{
+  "dataset": "pix-fraud-br",
+  "sample": 50000,
+  "device": "cpu",
+  "arquitetura": "GraphSAGE bipartido (3 camadas)",
+  "resultados": [
+    {
+      "modelo": "GNN (GraphSAGE bipartido)",
+      "n_nodes": 96896,
+      "n_edges": 50000,
+      "n_train": 47543,
+      "n_test": 2457,
+      "pr_auc": 0.3928,
+      "brier": 0.26303,
+      "f1": 0.425,
+      "precision": 0.6939,
+      "recall": 0.3063,
+      "tempo_treino_s": 7.0,
+      "device": "cpu",
+      "n_params": 6235137
+    },
+    {
+      "modelo": "CatBoost (s10)",
+      "pr_auc": 0.9603,
+      "brier": 0.01285,
+      "f1": 0.9072
+    }
+  ],
+  "delta_pr_auc_pp": -56.75
+}
