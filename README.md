@@ -28,6 +28,28 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 
 ---
 
+## 📈 Visualizações-chave
+
+### Modelos comparados (PR-AUC)
+![Comparação de 9 modelos](docs/images/01_model_comparison.png)
+
+### Fraude por hora — o sinal mais forte
+![Fraude por hora](docs/images/02_fraud_by_hour.png)
+
+### SHAP — features contextuais dominam
+![SHAP importance](docs/images/03_shap_importance.png)
+
+### Curva de ROI por threshold
+![ROI curve](docs/images/04_roi_curve.png)
+
+### Walk-forward temporal
+![Walk-forward](docs/images/05_walk_forward.png)
+
+### Optuna — resultado honesto (pior que default)
+![Optuna trials](docs/images/06_optuna_trials.png)
+
+---
+
 ## 📂 Estrutura
 
 ```
