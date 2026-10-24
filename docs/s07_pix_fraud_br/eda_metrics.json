@@ -1,0 +1,464 @@
+{
+  "dataset": "andremessina/pix-fraud-br (Hugging Face)",
+  "n_transactions": 2000000,
+  "n_fraud": 15376,
+  "fraud_rate_pct": 0.7688,
+  "period": [
+    "2024-01-01 00:00:00",
+    "2024-01-31 23:59:59"
+  ],
+  "by_tx_type": [
+    {
+      "tx_type": "dados_bancarios",
+      "n_tx": 399107,
+      "n_fraud": 3229,
+      "fraud_rate": 0.0081
+    },
+    {
+      "tx_type": "chave_pix",
+      "n_tx": 1361653,
+      "n_fraud": 10361,
+      "fraud_rate": 0.0076
+    },
+    {
+      "tx_type": "pix_copia_e_cola",
+      "n_tx": 239240,
+      "n_fraud": 1786,
+      "fraud_rate": 0.0075
+    }
+  ],
+  "by_night": [
+    {
+      "is_night": true,
+      "n_tx": 404554,
+      "n_fraud": 6256,
+      "fraud_rate": 0.0155
+    },
+    {
+      "is_night": false,
+      "n_tx": 1595446,
+      "n_fraud": 9120,
+      "fraud_rate": 0.0057
+    }
+  ],
+  "by_workday": [
+    {
+      "is_workday": true,
+      "n_tx": 1141697,
+      "n_fraud": 9786,
+      "fraud_rate": 0.0086
+    },
+    {
+      "is_workday": false,
+      "n_tx": 858303,
+      "n_fraud": 5590,
+      "fraud_rate": 0.0065
+    }
+  ],
+  "by_above_night_limit": [
+    {
+      "above_night_limit": true,
+      "n_tx": 387404,
+      "n_fraud": 5870,
+      "fraud_rate": 0.0152
+    },
+    {
+      "above_night_limit": false,
+      "n_tx": 1612596,
+      "n_fraud": 9506,
+      "fraud_rate": 0.0059
+    }
+  ],
+  "amount_stats": {
+    "0": {
+      "count": 1984624,
+      "mean": 908926.64,
+      "median": 491960.13,
+      "std": 1891610.15,
+      "min": 0.01,
+      "max": 92563652.9
+    },
+    "1": {
+      "count": 15376,
+      "mean": 1461508.07,
+      "median": 458311.13,
+      "std": 2372462.7,
+      "min": 0.01,
+      "max": 10357202.7
+    }
+  },
+  "residual_balance_ratio_stats": {
+    "0": {
+      "mean": 0.6944,
+      "median": 0.7822,
+      "std": 0.2627
+    },
+    "1": {
+      "mean": 0.2012,
+      "median": 0.0814,
+      "std": 0.271
+    }
+  },
+  "receiver_amount_ratio_stats": {
+    "0": {
+      "mean": 0.8744,
+      "median": 0.9547,
+      "std": 0.2119
+    },
+    "1": {
+      "mean": 0.9304,
+      "median": 0.9991,
+      "std": 0.2377
+    }
+  },
+  "by_hour": [
+    {
+      "hora_dia": 4,
+      "n_tx": 1298,
+      "n_fraud": 608,
+      "fraud_rate": 0.4684
+    },
+    {
+      "hora_dia": 5,
+      "n_tx": 1474,
+      "n_fraud": 639,
+      "fraud_rate": 0.4335
+    },
+    {
+      "hora_dia": 3,
+      "n_tx": 2380,
+      "n_fraud": 631,
+      "fraud_rate": 0.2651
+    },
+    {
+      "hora_dia": 6,
+      "n_tx": 2878,
+      "n_fraud": 653,
+      "fraud_rate": 0.2269
+    },
+    {
+      "hora_dia": 2,
+      "n_tx": 5912,
+      "n_fraud": 616,
+      "fraud_rate": 0.1042
+    },
+    {
+      "hora_dia": 1,
+      "n_tx": 13646,
+      "n_fraud": 603,
+      "fraud_rate": 0.0442
+    },
+    {
+      "hora_dia": 7,
+      "n_tx": 17105,
+      "n_fraud": 625,
+      "fraud_rate": 0.0365
+    },
+    {
+      "hora_dia": 0,
+      "n_tx": 27071,
+      "n_fraud": 603,
+      "fraud_rate": 0.0223
+    },
+    {
+      "hora_dia": 8,
+      "n_tx": 38965,
+      "n_fraud": 701,
+      "fraud_rate": 0.018
+    },
+    {
+      "hora_dia": 23,
+      "n_tx": 43770,
+      "n_fraud": 655,
+      "fraud_rate": 0.015
+    },
+    {
+      "hora_dia": 22,
+      "n_tx": 70094,
+      "n_fraud": 612,
+      "fraud_rate": 0.0087
+    },
+    {
+      "hora_dia": 9,
+      "n_tx": 81331,
+      "n_fraud": 627,
+      "fraud_rate": 0.0077
+    },
+    {
+      "hora_dia": 21,
+      "n_tx": 98889,
+      "n_fraud": 645,
+      "fraud_rate": 0.0065
+    },
+    {
+      "hora_dia": 10,
+      "n_tx": 114459,
+      "n_fraud": 678,
+      "fraud_rate": 0.0059
+    },
+    {
+      "hora_dia": 11,
+      "n_tx": 136480,
+      "n_fraud": 656,
+      "fraud_rate": 0.0048
+    },
+    {
+      "hora_dia": 17,
+      "n_tx": 152262,
+      "n_fraud": 729,
+      "fraud_rate": 0.0048
+    },
+    {
+      "hora_dia": 20,
+      "n_tx": 140020,
+      "n_fraud": 644,
+      "fraud_rate": 0.0046
+    },
+    {
+      "hora_dia": 15,
+      "n_tx": 141212,
+      "n_fraud": 635,
+      "fraud_rate": 0.0045
+    },
+    {
+      "hora_dia": 12,
+      "n_tx": 147427,
+      "n_fraud": 653,
+      "fraud_rate": 0.0044
+    },
+    {
+      "hora_dia": 14,
+      "n_tx": 145303,
+      "n_fraud": 635,
+      "fraud_rate": 0.0044
+    },
+    {
+      "hora_dia": 13,
+      "n_tx": 146779,
+      "n_fraud": 622,
+      "fraud_rate": 0.0042
+    },
+    {
+      "hora_dia": 16,
+      "n_tx": 147254,
+      "n_fraud": 620,
+      "fraud_rate": 0.0042
+    },
+    {
+      "hora_dia": 19,
+      "n_tx": 158779,
+      "n_fraud": 638,
+      "fraud_rate": 0.004
+    },
+    {
+      "hora_dia": 18,
+      "n_tx": 165212,
+      "n_fraud": 648,
+      "fraud_rate": 0.0039
+    }
+  ],
+  "top_fraudulent_payers": [
+    {
+      "customer_id": "***.108.630-**",
+      "n_fraude": 2,
+      "valor_total": 13009125.59
+    },
+    {
+      "customer_id": "***.206.298-**",
+      "n_fraude": 2,
+      "valor_total": 10991685.64
+    },
+    {
+      "customer_id": "***.158.664-**",
+      "n_fraude": 2,
+      "valor_total": 10747807.29
+    },
+    {
+      "customer_id": "***.798.340-**",
+      "n_fraude": 2,
+      "valor_total": 10467816.61
+    },
+    {
+      "customer_id": "***.144.789-**",
+      "n_fraude": 2,
+      "valor_total": 10409543.81
+    },
+    {
+      "customer_id": "***.382.165-**",
+      "n_fraude": 1,
+      "valor_total": 10357202.7
+    },
+    {
+      "customer_id": "***.375.653-**",
+      "n_fraude": 1,
+      "valor_total": 10309650.93
+    },
+    {
+      "customer_id": "***.085.303-**",
+      "n_fraude": 2,
+      "valor_total": 10273746.13
+    },
+    {
+      "customer_id": "***.274.362-**",
+      "n_fraude": 1,
+      "valor_total": 10267072.34
+    },
+    {
+      "customer_id": "***.393.426-**",
+      "n_fraude": 2,
+      "valor_total": 10266213.93
+    },
+    {
+      "customer_id": "***.509.163-**",
+      "n_fraude": 1,
+      "valor_total": 10255258.22
+    },
+    {
+      "customer_id": "***.416.291-**",
+      "n_fraude": 1,
+      "valor_total": 10243585.49
+    },
+    {
+      "customer_id": "***.952.818-**",
+      "n_fraude": 1,
+      "valor_total": 10240513.04
+    },
+    {
+      "customer_id": "***.459.843-**",
+      "n_fraude": 1,
+      "valor_total": 10236227.21
+    },
+    {
+      "customer_id": "***.327.702-**",
+      "n_fraude": 1,
+      "valor_total": 10232918.28
+    },
+    {
+      "customer_id": "***.121.381-**",
+      "n_fraude": 1,
+      "valor_total": 10227346.68
+    },
+    {
+      "customer_id": "***.989.490-**",
+      "n_fraude": 1,
+      "valor_total": 10224127.98
+    },
+    {
+      "customer_id": "***.614.539-**",
+      "n_fraude": 1,
+      "valor_total": 10223613.9
+    },
+    {
+      "customer_id": "***.507.551-**",
+      "n_fraude": 2,
+      "valor_total": 10219583.87
+    },
+    {
+      "customer_id": "***.794.385-**",
+      "n_fraude": 1,
+      "valor_total": 10217538.47
+    }
+  ],
+  "top_fraudulent_receivers": [
+    {
+      "merchant_id": "***.196.830-**",
+      "n_fraude": 2,
+      "valor_total": 11644694.6
+    },
+    {
+      "merchant_id": "***.555.581-**",
+      "n_fraude": 2,
+      "valor_total": 11402170.33
+    },
+    {
+      "merchant_id": "***.123.688-**",
+      "n_fraude": 2,
+      "valor_total": 11292306.97
+    },
+    {
+      "merchant_id": "***.621.864-**",
+      "n_fraude": 2,
+      "valor_total": 11062683.36
+    },
+    {
+      "merchant_id": "***.103.797-**",
+      "n_fraude": 2,
+      "valor_total": 10954998.68
+    },
+    {
+      "merchant_id": "***.848.722-**",
+      "n_fraude": 2,
+      "valor_total": 10721123.47
+    },
+    {
+      "merchant_id": "***.864.897-**",
+      "n_fraude": 1,
+      "valor_total": 10357202.7
+    },
+    {
+      "merchant_id": "***.431.756-**",
+      "n_fraude": 1,
+      "valor_total": 10320795.18
+    },
+    {
+      "merchant_id": "***.875.108-**",
+      "n_fraude": 1,
+      "valor_total": 10309650.93
+    },
+    {
+      "merchant_id": "***.766.903-**",
+      "n_fraude": 1,
+      "valor_total": 10267072.34
+    },
+    {
+      "merchant_id": "***.955.350-**",
+      "n_fraude": 1,
+      "valor_total": 10255258.22
+    },
+    {
+      "merchant_id": "***.933.696-**",
+      "n_fraude": 1,
+      "valor_total": 10243585.49
+    },
+    {
+      "merchant_id": "***.790.533-**",
+      "n_fraude": 1,
+      "valor_total": 10240513.04
+    },
+    {
+      "merchant_id": "***.123.920-**",
+      "n_fraude": 1,
+      "valor_total": 10236227.21
+    },
+    {
+      "merchant_id": "***.789.504-**",
+      "n_fraude": 1,
+      "valor_total": 10232918.28
+    },
+    {
+      "merchant_id": "***.184.112-**",
+      "n_fraude": 1,
+      "valor_total": 10227346.68
+    },
+    {
+      "merchant_id": "***.863.477-**",
+      "n_fraude": 1,
+      "valor_total": 10224127.98
+    },
+    {
+      "merchant_id": "***.188.827-**",
+      "n_fraude": 1,
+      "valor_total": 10223613.9
+    },
+    {
+      "merchant_id": "***.293.389-**",
+      "n_fraude": 1,
+      "valor_total": 10217538.47
+    },
+    {
+      "merchant_id": "***.293.124-**",
+      "n_fraude": 2,
+      "valor_total": 10216929.61
+    }
+  ]
+}
