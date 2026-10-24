@@ -25,6 +25,9 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 | **s15** | **Modelo externo** | **CatBoost 6x mais rápido** | RF externo: irreprodutível (5 features anônimas) |
 | **s16** | **Graph + warming** | **+ velocity +0,18pp** | Hipótese refutada: dataset sintético não simula rede |
 | **s17** | **GNN (GraphSAGE)** | **-56,75pp** | Hipótese refutada de novo: GNN precisa de rede real |
+| **s18** | **Cross-dataset (5 DS)** | **Xente 0,9672 · MoMTSim 0,9712** | Pipeline generaliza p/ mobile money; IEEE-CIS/BAF exigem FE/drift |
+| **s19** | **BAF (account takeover)** | **PR-AUC 0,1689** | 12x melhor que random; drift adversarial limita |
+| **s21** | **Calibração (isotonic)** | **Piorou** Brier +3,5% | Modelo já calibrado + poucos positivos = ruído |
 
 **Conclusão mestre**: o sinal em fraude está nas **features contextuais** (drain_score, night_x_ratio, saldo residual), não no modelo. **CatBoost default** com engenharia de features bem feita bate todos os competidores testados.
 
@@ -54,6 +57,11 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 ![Real examples](docs/images/07_real_examples.png)
 
 > **Padrão consistente**: recebedor com saldo baixo (conta-laranja), horário de madrugada (4-5h), drenagem total (residual ≈ 0), recebedor fica com 100% do valor.
+
+### Cross-dataset benchmark — pipeline generaliza
+![Cross-dataset benchmark](docs/images/08_cross_dataset.png)
+
+> **Xente (REAL) 0,9672 · MoMTSim 0,9712** — nosso pipeline supera o PIX em mobile money. IEEE-CIS (0,50) e BAF (0,17) exigem feature engineering específico ou drift adversarial.
 
 ---
 

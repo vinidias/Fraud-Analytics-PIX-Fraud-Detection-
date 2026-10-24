@@ -1,0 +1,83 @@
+{
+  "dataset": "BAF",
+  "pr_auc": 0.179,
+  "brier": 0.11855,
+  "f1": 0.2599,
+  "top_features": [
+    {
+      "feature": "phone_home_valid",
+      "mean_abs_shap": 0.4756984227939614,
+      "pct": 8.733913098335604
+    },
+    {
+      "feature": "current_address_months_count",
+      "mean_abs_shap": 0.4618417706449257,
+      "pct": 8.479502341636582
+    },
+    {
+      "feature": "keep_alive_session",
+      "mean_abs_shap": 0.3975883227210602,
+      "pct": 7.299796873749129
+    },
+    {
+      "feature": "prev_address_months_count",
+      "mean_abs_shap": 0.3975789237800293,
+      "pct": 7.2996243074124605
+    },
+    {
+      "feature": "name_email_similarity",
+      "mean_abs_shap": 0.3750762171741054,
+      "pct": 6.886470354075501
+    },
+    {
+      "feature": "income",
+      "mean_abs_shap": 0.3741694140854837,
+      "pct": 6.869821277698902
+    },
+    {
+      "feature": "has_other_cards",
+      "mean_abs_shap": 0.3678412537731043,
+      "pct": 6.753635056361362
+    },
+    {
+      "feature": "credit_risk_score",
+      "mean_abs_shap": 0.31573880357553635,
+      "pct": 5.797024207069108
+    },
+    {
+      "feature": "bank_branch_count_8w",
+      "mean_abs_shap": 0.28116904293851513,
+      "pct": 5.162316857272448
+    },
+    {
+      "feature": "email_is_free",
+      "mean_abs_shap": 0.27348976899274313,
+      "pct": 5.021323933842607
+    },
+    {
+      "feature": "intended_balcon_amount",
+      "mean_abs_shap": 0.25472108894552864,
+      "pct": 4.6767274150228735
+    },
+    {
+      "feature": "customer_age",
+      "mean_abs_shap": 0.24136493989507166,
+      "pct": 4.43150598996544
+    },
+    {
+      "feature": "zip_count_4w",
+      "mean_abs_shap": 0.15302741848009255,
+      "pct": 2.809612373355824
+    },
+    {
+      "feature": "date_of_birth_distinct_emails_4w",
+      "mean_abs_shap": 0.14130168390725542,
+      "pct": 2.5943256667659513
+    },
+    {
+      "feature": "proposed_credit_limit",
+      "mean_abs_shap": 0.13852285656558502,
+      "pct": 2.5433058707050753
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "dataset": "PIX Fraud BR",
+  "calibracao": [
+    {
+      "modelo": "CatBoost (base)",
+      "pr_auc": 0.9598,
+      "brier": 0.01174,
+      "f1": 0.9063,
+      "threshold_f1": 0.9297
+    },
+    {
+      "modelo": "CatBoost (isotonic)",
+      "pr_auc": 0.9545,
+      "brier": 0.01215,
+      "f1": 0.9057,
+      "threshold_f1": 0.1225
+    }
+  ],
+  "cost_sensitive_threshold": {
+    "threshold": 0.0013,
+    "precision": 0.5697,
+    "recall": 0.9832,
+    "custo_fp": 20.0,
+    "custo_fn": 819.01
+  }
+}
