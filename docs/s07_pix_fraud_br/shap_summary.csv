@@ -1,0 +1,17 @@
+feature,mean_abs_shap,pct_of_total
+saldo_posterior_pagador,1.0692,17.8678
+saldo_anterior_recebedor,1.0538,17.6098
+drain_score,0.7634,12.7566
+saldo_anterior_pagador,0.5832,9.7458
+hora_dia,0.5777,9.6543
+receiver_amount_ratio,0.5178,8.6534
+residual_balance_ratio,0.4178,6.982
+amount,0.3682,6.1538
+saldo_posterior_recebedor,0.2734,4.5684
+is_workday,0.1776,2.9686
+night_x_residual,0.0689,1.1512
+night_x_ratio,0.0674,1.1265
+limit_x_residual,0.0401,0.6706
+is_night,0.0049,0.0813
+above_night_limit,0.0006,0.0101
+log_amount,0.0,0.0
