@@ -1,0 +1,10 @@
+{
+  "iterations": 488,
+  "learning_rate": 0.019918660668159716,
+  "depth": 4,
+  "l2_leaf_reg": 0.48429509960829226,
+  "random_strength": 0.2264331317212931,
+  "bagging_temperature": 0.02285410144631691,
+  "border_count": 227,
+  "min_data_in_leaf": 58
+}

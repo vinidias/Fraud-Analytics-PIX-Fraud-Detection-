@@ -23,3 +23,27 @@ Thumbs.db
 
 # Logs temporários de scripts
 *.log
+
+# CatBoost training artifacts
+catboost_info/
+
+# Jupyter / Jupytext scratch
+fix_encoding.py
+
+# CatBoost training artifacts
+catboost_info/
+
+# Jupyter / Jupytext scratch
+fix_encoding.py
+
+# CatBoost training artifacts
+catboost_info/
+
+# Jupyter / Jupytext scratch
+fix_encoding.py
+
+# CatBoost training artifacts
+catboost_info/
+
+# Jupyter / Jupytext scratch
+fix_encoding.py
