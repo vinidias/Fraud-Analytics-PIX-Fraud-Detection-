@@ -1,0 +1,29 @@
+{
+  "external_model": {
+    "tipo": "RandomForestClassifier",
+    "n_estimators": 100,
+    "n_features": 5,
+    "tamanho_kb": 65.3,
+    "feature_importances": {
+      "f0": 0.087,
+      "f1": 0.29,
+      "f2": 0.3121,
+      "f3": 0.3109,
+      "f4": 0.0
+    },
+    "aplicavel_ao_pix": false,
+    "motivo": "5 features anonimas (f0-f4) - schema incompativel"
+  },
+  "nosso_modelo": {
+    "tipo": "CatBoost",
+    "n_features": 16,
+    "tamanho_kb": 550.4,
+    "pr_auc": 0.9603
+  },
+  "latencia_ms": {
+    "randomforest_1tx": 6.28,
+    "randomforest_10k": 15.76,
+    "catboost_1tx": 1.0,
+    "catboost_10k": 6.51
+  }
+}
