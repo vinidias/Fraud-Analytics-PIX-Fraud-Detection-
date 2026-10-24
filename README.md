@@ -24,6 +24,7 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 | **s14** | **Escala 2M** | **CatBoost 0,9614** | 4x dados = +0,11pp (marginal) |
 | **s15** | **Modelo externo** | **CatBoost 6x mais rápido** | RF externo: irreprodutível (5 features anônimas) |
 | **s16** | **Graph + warming** | **+ velocity +0,18pp** | Hipótese refutada: dataset sintético não simula rede |
+| **s17** | **GNN (GraphSAGE)** | **-56,75pp** | Hipótese refutada de novo: GNN precisa de rede real |
 
 **Conclusão mestre**: o sinal em fraude está nas **features contextuais** (drain_score, night_x_ratio, saldo residual), não no modelo. **CatBoost default** com engenharia de features bem feita bate todos os competidores testados.
 
