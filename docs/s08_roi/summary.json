@@ -1,0 +1,116 @@
+{
+  "dataset": "pix-fraud-br",
+  "test_size": 24754,
+  "n_fraudes_teste": 1247,
+  "recomendacao_balanceado": {
+    "threshold": 0.0102,
+    "precision": 0.7305,
+    "recall": 0.9607,
+    "valor_evitado_brl": 989386.88,
+    "custo_total_brl": 33440.0,
+    "economia_liquida_brl": 955946.88,
+    "roi": 28.5869
+  },
+  "monte_carlo_resumo": {
+    "conservador": {
+      "roi_mean": 18.911620499999998,
+      "roi_ci95_low": 16.726365,
+      "roi_ci95_high": 21.27956,
+      "p_roi_positive": 1.0
+    },
+    "balanceado": {
+      "roi_mean": 28.672873,
+      "roi_ci95_low": 25.429055,
+      "roi_ci95_high": 31.92907,
+      "p_roi_positive": 1.0
+    },
+    "agressivo": {
+      "roi_mean": 45.593452,
+      "roi_ci95_low": 40.8703675,
+      "roi_ci95_high": 50.83729,
+      "p_roi_positive": 1.0
+    }
+  },
+  "sensitivity_costs": [
+    {
+      "threshold": 0.0102,
+      "n_flagged": 1640,
+      "tp": 1198,
+      "fp": 442,
+      "fn": 49,
+      "precision": 0.7305,
+      "recall": 0.9607,
+      "valor_evitado_brl": 989386.88,
+      "valor_perdido_brl": 212144.68,
+      "custo_revisao_brl": 12300.0,
+      "custo_friccao_brl": 4420.0,
+      "custo_total_brl": 16720.0,
+      "economia_liquida_brl": 972666.88,
+      "roi": 58.1739,
+      "multiplicador_custo": 0.5,
+      "custo_revisao_brl_unit": 7.5,
+      "custo_friccao_brl_unit": 10.0
+    },
+    {
+      "threshold": 0.0102,
+      "n_flagged": 1640,
+      "tp": 1198,
+      "fp": 442,
+      "fn": 49,
+      "precision": 0.7305,
+      "recall": 0.9607,
+      "valor_evitado_brl": 989386.88,
+      "valor_perdido_brl": 212144.68,
+      "custo_revisao_brl": 24600.0,
+      "custo_friccao_brl": 8840.0,
+      "custo_total_brl": 33440.0,
+      "economia_liquida_brl": 955946.88,
+      "roi": 28.5869,
+      "multiplicador_custo": 1.0,
+      "custo_revisao_brl_unit": 15.0,
+      "custo_friccao_brl_unit": 20.0
+    },
+    {
+      "threshold": 0.0102,
+      "n_flagged": 1640,
+      "tp": 1198,
+      "fp": 442,
+      "fn": 49,
+      "precision": 0.7305,
+      "recall": 0.9607,
+      "valor_evitado_brl": 989386.88,
+      "valor_perdido_brl": 212144.68,
+      "custo_revisao_brl": 49200.0,
+      "custo_friccao_brl": 17680.0,
+      "custo_total_brl": 66880.0,
+      "economia_liquida_brl": 922506.88,
+      "roi": 13.7935,
+      "multiplicador_custo": 2.0,
+      "custo_revisao_brl_unit": 30.0,
+      "custo_friccao_brl_unit": 40.0
+    },
+    {
+      "threshold": 0.4307,
+      "n_flagged": 1251,
+      "tp": 1112,
+      "fp": 139,
+      "fn": 135,
+      "precision": 0.8889,
+      "recall": 0.8917,
+      "valor_evitado_brl": 958017.76,
+      "valor_perdido_brl": 243513.8,
+      "custo_revisao_brl": 93825.0,
+      "custo_friccao_brl": 13900.0,
+      "custo_total_brl": 107725.0,
+      "economia_liquida_brl": 850292.76,
+      "roi": 7.8932,
+      "multiplicador_custo": 5.0,
+      "custo_revisao_brl_unit": 75.0,
+      "custo_friccao_brl_unit": 100.0
+    }
+  ],
+  "break_even": {
+    "multiplicador_break_even": 56.44444444444445,
+    "custo_revisao_break_even_brl": 846.6666666666667
+  }
+}
