@@ -1,0 +1,12 @@
+{
+  "best_model": "CatBoost",
+  "best_pr_auc": 0.9603,
+  "lgbm_pr_auc": 0.9484,
+  "ganho_pr_auc_pct": 1.25,
+  "ganho_recall1_pct": 0.4,
+  "ganho_ensemble_vs_individual_pct": -0.06,
+  "recomendacao": "CatBoost sozinho (ensemble nao agrega)",
+  "tempos_treino_s": {"lgbm": 7.7, "xgb": 8.8, "cb": 23.4, "stacking_cv_5folds": 200},
+  "insight_meta_coefs": {"lgbm": 1.11, "xgb": -1.02, "cb": 9.02, "interpretacao": "CatBoost domina, XGBoost atua como corretor de erro"},
+  "insight_lightgbm_roi": "Threshold F1 mais conservador (0.44) -> flagra menos -> ROI alto mas recall levemente menor"
+}

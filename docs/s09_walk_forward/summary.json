@@ -1,0 +1,19 @@
+{
+  "estrategias": [
+    "fixed",
+    "expanding"
+  ],
+  "janelas": [
+    "W1",
+    "W2",
+    "W3",
+    "W4"
+  ],
+  "resumo": {
+    "avg_delta_f1": 0.0021,
+    "avg_delta_roi": 0.85,
+    "brier_avg_expanding": 0.00749,
+    "brier_avg_fixed": 0.00759,
+    "recomendacao_retreino": "mensal"
+  }
+}
