@@ -64,7 +64,7 @@
 61:     df = pd.concat([legit, fraud], ignore_index=True)
 62:     df = df.sample(frac=1, random_state=seed).reset_index(drop=True)
 63:     df["event_time"] = pd.to_datetime(df["event_time"])
-64:     # target compatível com a vaga (Class = 1 fraude)
+64:     # target padrão (Class = 1 fraude)
 65:     df["Class"] = df["is_fraud"]
 66:     return df
 67: 

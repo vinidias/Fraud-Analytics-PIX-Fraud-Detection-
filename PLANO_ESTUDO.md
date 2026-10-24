@@ -3,7 +3,7 @@
 ## Objetivo
 Dominar o pipeline completo de detecção de fraude: EDA + SQL + prevenção a fraude no setor financeiro (transacional, pagamentos, cartões, crédito, chargebacks) + comunicação de insights.
 
-## Mapeamento vaga → competências
+## Mapeamento requisitos → competências
 | Requisito | Competência | Repos de estudo |
 |---|---|---|
 | EDA, anomalias, hipóteses | Pandas, estatística, visualização | ydataai/ydata-profiling, mwaskom/seaborn, plotly/plotly.py |
