@@ -93,9 +93,9 @@ streamlit run dashboards/s05/app.py
 
 ---
 
-## 🎯 Mapeamento vaga → entregas
+## 🎯 Requisitos técnicos → entregas
 
-| Requisito da vaga | Onde está coberto | Evidência |
+| Requisito | Onde está coberto | Evidência |
 |---|---|---|
 | EDA, anomalias, hipóteses | s07, s04 | `RESULTADOS.md` + SHAP + benchmark pyod |
 | SQL para grandes volumes | sql/ (10+ queries) | window functions, velocity, chargeback rate |

@@ -27,7 +27,7 @@ git push -u origin main
 
 Settings → Topics → adicionar:
 ```
-fraud-detection, pix, machine-learning, catboost, python, data-analysis, portfolio, incognia
+fraud-detection, pix, machine-learning, catboost, python, data-analysis, portfolio, shap, streamlit
 ```
 
 ### 1.4 Ativar Discussions (opcional, mas recomendado)
