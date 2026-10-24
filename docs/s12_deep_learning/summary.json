@@ -1,0 +1,47 @@
+{
+  "device": "cpu",
+  "hipotese": "DL nao bate GBDT em tabular bem estruturado",
+  "confirmada": true,
+  "resultados": [
+    {
+      "modelo": "CatBoost (baseline s10)",
+      "pr_auc": 0.9603,
+      "brier": 0.01285,
+      "f1": 0.9072,
+      "precision": NaN,
+      "recall": NaN,
+      "tempo_s": 23.4,
+      "n_params": "~10k arvores"
+    },
+    {
+      "modelo": "PyTorch MLP",
+      "pr_auc": 0.9206,
+      "brier": 0.01767,
+      "f1": 0.8713,
+      "precision": 0.8036,
+      "recall": 0.9516,
+      "tempo_s": 113.8,
+      "n_params": "12,993"
+    },
+    {
+      "modelo": "TabNet",
+      "pr_auc": 0.8753,
+      "brier": 0.02908,
+      "f1": 0.8257,
+      "precision": 0.8297,
+      "recall": 0.8217,
+      "tempo_s": 304.4,
+      "n_params": "27,360"
+    },
+    {
+      "modelo": "AutoEncoder (anomalia)",
+      "pr_auc": 0.228,
+      "brier": 0.04973,
+      "f1": 0.3328,
+      "precision": 0.2722,
+      "recall": 0.4283,
+      "tempo_s": 41.2,
+      "n_params": "2,424"
+    }
+  ]
+}

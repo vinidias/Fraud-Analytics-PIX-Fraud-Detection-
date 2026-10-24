@@ -1,0 +1,5 @@
+modelo,pr_auc,brier,f1,precision,recall,tempo_s,n_params
+CatBoost (baseline s10),0.9603,0.01285,0.9072,,,23.4,~10k arvores
+PyTorch MLP,0.9206,0.01767,0.8713,0.8036,0.9516,113.8,"12,993"
+TabNet,0.8753,0.02908,0.8257,0.8297,0.8217,304.4,"27,360"
+AutoEncoder (anomalia),0.228,0.04973,0.3328,0.2722,0.4283,41.2,"2,424"
