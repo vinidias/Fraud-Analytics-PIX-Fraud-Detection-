@@ -1,4 +1,4 @@
-# Case Técnico — Resolvido (Incognia Style)
+# Case Técnico — Resolvido (Fraude PIX)
 
 Este documento foi **preenchido com os resultados reais** do projeto, transformando o template em resposta pronta para entrevista.
 

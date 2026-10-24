@@ -1,4 +1,4 @@
-# Prep de Entrevista — Incognia Fraud Data Analyst
+# Prep de Entrevista — Fraud Data Analyst
 
 ## Etapas do processo
 1. People Interview
@@ -37,7 +37,7 @@
 - **Card testing** — micro-transações antes de compra grande
 - **Impossible travel** — geolocalização inconsistente
 
-### Incognia (pesquisar antes)
+### Contexto de empresas de fraud prevention
 - Mobile identity + location intelligence + device signals
 - Privacy-by-design
 - Casos de uso: bancos, fintechs, delivery, marketplaces, sharing economy
@@ -62,4 +62,4 @@
   - [ ] 1-pager executivo
 - [ ] CV com seção "Projetos" referenciando o repo
 - [ ] LinkedIn atualizado com skills: SQL, Python, Fraud Analytics, Anomaly Detection
-- [ ] Conectar com TaTi Lattanzi (Senior Eng Manager @ Incognia) via LinkedIn após aplicar
+- [ ] Conectar com recrutadores e líderes técnicos da empresa via LinkedIn após aplicar

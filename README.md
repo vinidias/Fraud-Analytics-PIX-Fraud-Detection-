@@ -1,13 +1,13 @@
-# Fraud Analytics — Estudo para Fraud Data Analyst (Incognia)
+# Fraud Analytics — PIX Fraud Detection
 
 [![CI](https://github.com/vinic/fraud-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/vinic/fraud-analytics/actions/workflows/ci.yml)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
 
-Projeto prático de estudo para a vaga de **Fraud Data Analyst** na [Incognia](https://www.incognia.com/) (Recife/Remoto, CLT R$11.592,61–R$15.481,57).
+Pipeline end-to-end de detecção de fraude em transações PIX: EDA, engenharia de features contextuais, modelagem supervisionada, explicabilidade (SHAP), simulação de ROI e validação temporal.
 
-Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessina/pix-fraud-br) — 2M transações PIX sintéticas (jan/2024), 0,77% de fraude, alinhado ao domínio da Incognia.
+Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessina/pix-fraud-br) — 2M transações PIX sintéticas (jan/2024), 0,77% de fraude.
 
 ---
 

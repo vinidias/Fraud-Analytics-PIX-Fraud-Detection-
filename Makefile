@@ -1,5 +1,5 @@
 # ============================================================
-# Makefile — Fraud Analytics (Incognia prep)
+# Makefile — Fraud Analytics (PIX)
 # Uso: make <target>   (Windows: usar Git Bash / WSL)
 # ============================================================
 
