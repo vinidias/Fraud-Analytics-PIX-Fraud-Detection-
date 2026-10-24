@@ -37,7 +37,7 @@ jobs:
           python-version: '3.12'
       - name: Install core deps
         run: |
-          pip install pandas numpy pyarrow scikit-learn lightgbm
+          pip install pandas numpy pyarrow scikit-learn lightgbm pyod
       - name: Run synthetic generator + feature engineering
         run: |
           python scripts/generate_synthetic.py --n 5000 --output data/synthetic/test.csv
