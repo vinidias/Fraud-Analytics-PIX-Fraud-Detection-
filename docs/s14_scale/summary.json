@@ -1,0 +1,29 @@
+{
+  "dataset": "pix_fraud_br full (2M)",
+  "n_train": 1900533,
+  "n_test": 99467,
+  "n_fraude_test": 4820,
+  "resultados": [
+    {
+      "modelo": "LightGBM",
+      "n_train": 1900533,
+      "pr_auc": 0.9553,
+      "brier": 0.01037,
+      "f1": 0.8916,
+      "precision": 0.9149,
+      "recall": 0.8695,
+      "tempo_s": 37.1
+    },
+    {
+      "modelo": "CatBoost",
+      "n_train": 1900533,
+      "pr_auc": 0.9614,
+      "brier": 0.0166,
+      "f1": 0.9036,
+      "precision": 0.9023,
+      "recall": 0.9048,
+      "tempo_s": 98.4
+    }
+  ],
+  "ganho_max_pp": 0.69
+}
