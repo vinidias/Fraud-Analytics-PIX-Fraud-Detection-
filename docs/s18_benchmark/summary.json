@@ -1,0 +1,70 @@
+{
+  "fonte": "mkbadeniyi/fraud-detection-benchmark",
+  "resultados": [
+    {
+      "pr_auc": 0.9672,
+      "brier": 0.00046,
+      "f1": 0.9245,
+      "precision": 0.875,
+      "recall": 0.98,
+      "dataset": "xente",
+      "n_train": 66963,
+      "n_test": 14350,
+      "n_features": 13,
+      "fraud_rate_test_pct": 0.348,
+      "tempo_s": 4.4
+    },
+    {
+      "pr_auc": 0.5067,
+      "brier": 0.09242,
+      "f1": 0.4903,
+      "precision": 0.5097,
+      "recall": 0.4723,
+      "dataset": "ieee_cis",
+      "n_train": 240679,
+      "n_test": 103149,
+      "n_features": 422,
+      "fraud_rate_test_pct": 3.412,
+      "tempo_s": 47.1
+    },
+    {
+      "pr_auc": 0.217,
+      "brier": 0.03891,
+      "f1": 0.2884,
+      "precision": 0.9118,
+      "recall": 0.1713,
+      "dataset": "paysim",
+      "n_train": 347624,
+      "n_test": 152374,
+      "n_features": 3,
+      "fraud_rate_test_pct": 0.475,
+      "tempo_s": 15.8
+    },
+    {
+      "pr_auc": 0.9712,
+      "brier": 0.06503,
+      "f1": 0.9061,
+      "precision": 0.8285,
+      "recall": 0.9998,
+      "dataset": "momtsim",
+      "n_train": 345865,
+      "n_test": 154133,
+      "n_features": 3,
+      "fraud_rate_test_pct": 50.495,
+      "tempo_s": 13.4
+    },
+    {
+      "pr_auc": 0.1689,
+      "brier": 0.08757,
+      "f1": 0.2468,
+      "precision": 0.1902,
+      "recall": 0.3513,
+      "dataset": "baf",
+      "n_train": 166666,
+      "n_test": 205011,
+      "n_features": 30,
+      "fraud_rate_test_pct": 1.404,
+      "tempo_s": 10.1
+    }
+  ]
+}
