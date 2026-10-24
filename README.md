@@ -74,6 +74,67 @@ O **PIX** é o sistema de pagamentos instantâneos do Banco Central do Brasil �
 
 ---
 
+## 📏 Métricas explicadas (por que PR-AUC e Recall@k%)
+
+Duas métricas dominam o projeto. Se você só mostrar uma, o modelo parece "bom número". Se mostrar as duas, ele vira **decisão de negócio**.
+
+### PR-AUC — o modelo é bom em geral?
+
+Em fraude, a **acurácia engana**: com 0,77% de fraude, um modelo que diz "nunca é fraude" tem **99,23% de acurácia** — e é inútil. O **ROC-AUC** também otimiza demais: no nosso caso deu **0,9928**, mas isso **esconde** que o modelo tem 11% de falsos positivos. O **PR-AUC** é honesto porque só olha para o que importa (os positivos).
+
+| Métrica | Nosso valor | O que parece | O que é de verdade |
+|---|---|---|---|
+| Acurácia | ~99% | "perfeito" | enganosa (só acertar negativos já dá 99%) |
+| ROC-AUC | 0,9928 | "quase perfeito" | otimista (ignora o custo do FP) |
+| **PR-AUC** | **0,9614** | "muito bom" | **honesto** (mede o que importa) |
+
+**Tradução**: PR-AUC resume a curva de Precision × Recall em **todos os thresholds possíveis**. 1,0 = modelo perfeito, 0,5 = aleatório para classes balanceadas. **0,9614** significa que, em qualquer threshold que você escolher, o modelo mantém uma combinação muito boa das duas métricas.
+
+**Por que Precision e Recall importam separadamente**:
+
+| | Modelo disse **fraude** | Modelo disse **legítima** |
+|---|---|---|
+| **Era fraude** | ✅ TP | ❌ FN — perdeu a fraude |
+| **Era legítima** | ❌ FP — bloqueou cliente | ✅ TN |
+
+- **Precision** = `TP / (TP + FP)` → *"de tudo que bloqueei, quanto era fraude de verdade?"* → mede **fricção no cliente**
+- **Recall** = `TP / (TP + FN)` → *"de todas as fraudes, quantas eu peguei?"* → mede **prejuízo**
+
+Há um trade-off entre elas: baixar o threshold sobe Recall mas derruba Precision. O PR-AUC captura **a curva inteira**, não um ponto isolado.
+
+### Recall@k% — o modelo é bom **na minha realidade**?
+
+Aqui está onde a maioria dos papers erra: **PR-AUC não é o que o time de operações vive no dia a dia**. Em produção, você **não pode bloquear tudo** — existe **capacidade humana limitada**.
+
+O time de 10 analistas, 30 revisões por analista/dia = **300 revisões/dia**. Então a pergunta real é:
+
+> *"Dado que só posso revisar as top 300 transações de maior score, quantas fraudes eu pego?"*
+
+**Recall@k%** mede exatamente isso: ordena todas as transações pelo score, pega as **top k%** mais suspeitas e conta quantas eram fraude de verdade.
+
+| Métrica | Valor | Tradução (1.247 fraudes em 24.754 transações) |
+|---|---:|---|
+| **Recall@1%** | 0,198 | Revisando top 247 → pega **247 fraudes** (19,8%) |
+| **Recall@5%** | 0,9014 | Revisando top 1.238 → pega **1.124 fraudes** (90,1%) |
+| **Recall@10%** | 0,9888 | Revisando top 2.475 → pega **1.233 fraudes** (98,9%) |
+
+**Insight operacional**: com apenas **5% das transações revisadas**, o modelo **pega 90% das fraudes**. Isso é o que o time consegue fazer no dia a dia — e é o que fecha o ROI de **28,6x** no s08.
+
+### Como as duas se complementam
+
+| Dimensão | PR-AUC | Recall@k% |
+|---|---|---|
+| **Responde** | "O modelo é bom em geral?" | "O modelo é bom **na minha realidade**?" |
+| **Público** | Cientista de dados | Head de Operações / C-level |
+| **Threshold** | Todos | O threshold operacional |
+| **Usar quando** | Comparar modelos | Decidir quantos analistas contratar |
+
+**No projeto**: PR-AUC no s10 (comparar 9 modelos) · Recall@k% no s08 (simular 300 revisões/dia + ROI) · SHAP no s07 (validado em **ambas**).
+
+**A lição**: se você só mostrar PR-AUC = 0,9614, o recrutador pensa *"número bom, mas e daí?"*. Se mostrar **PR-AUC 0,9614 + Recall@5% 90% + ROI 28,6x**, ele pensa *"esse cara traduz performance em decisão de negócio"*.
+
+---
+
 ## 📈 Visualizações-chave
 
 ### 1. Comparação de 9 modelos
