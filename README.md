@@ -1,5 +1,10 @@
 # Fraud Analytics — Estudo para Fraud Data Analyst (Incognia)
 
+[![CI](https://github.com/vinic/fraud-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/vinic/fraud-analytics/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+
 Projeto prático de estudo para a vaga de **Fraud Data Analyst** na [Incognia](https://www.incognia.com/) (Recife/Remoto, CLT R$11.592,61–R$15.481,57).
 
 Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessina/pix-fraud-br) — 2M transações PIX sintéticas (jan/2024), 0,77% de fraude, alinhado ao domínio da Incognia.
@@ -129,6 +134,13 @@ streamlit run dashboards/s05/app.py
 - Bibliotecas: [CatBoost](https://catboost.ai/), [SHAP](https://shap.readthedocs.io/), [pyod](https://pyod.dev/), [Optuna](https://optuna.org/)
 
 ---
+
+## 🚀 Deploy
+
+Guia completo em [docs/DEPLOY.md](./docs/DEPLOY.md). Resumo:
+- GitHub: repositório público `fraud-analytics`
+- Streamlit Cloud: deploy do dashboard via UI (2 min)
+- URL amigável + badge atualizado no README
 
 ## 📄 Licença
 
