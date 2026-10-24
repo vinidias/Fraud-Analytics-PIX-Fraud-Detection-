@@ -1,121 +1,223 @@
-# Fraud Analytics — PIX Fraud Detection
+# 🛡️ Fraud Analytics — Detecção de Fraude no PIX
 
 [![CI](https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-/actions/workflows/ci.yml/badge.svg)](https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-/actions/workflows/ci.yml)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
 
-Pipeline end-to-end de detecção de fraude em transações PIX: EDA, engenharia de features contextuais, modelagem supervisionada, explicabilidade (SHAP), simulação de ROI e validação temporal.
+**15 experimentos · 12,3M transações · 5 datasets · 1 lição: o sinal está nas features, não no modelo.**
 
-Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessina/pix-fraud-br) — 2M transações PIX sintéticas (jan/2024), 0,77% de fraude.
+Pipeline end-to-end de detecção de fraude em transações PIX: EDA → engenharia de features contextuais → modelagem supervisionada → explicabilidade (SHAP) → simulação de ROI → validação temporal → cross-dataset benchmark.
+
+📖 **Leia o artigo**: [Por que o modelo mais simples venceu a fraude no PIX](docs/ARTIGO_MEDIUM.md)
 
 ---
 
-## 📊 Resumo executivo dos resultados
+## 🎯 TL;DR (o resumo em 3 bullets)
 
-| Fase | Tema | Melhor resultado | Insight-chave |
-|---|---|---|---|
-| s07 | EDA + LightGBM + SHAP | PR-AUC 0,954 · F1 0,90 | `drain_score` (interação) top 3 SHAP — fraude é contextual |
-| s08 | ROI simulator | ROI 28,6x · break-even R$ 847/revisão | Threshold ótimo ≠ operacional (capacity constraint) |
-| s09 | Walk-forward + PSI | Modelo estável | Dataset sintético não simula adversarial drift |
-| s10 | Ensemble GBDT | **CatBoost** 0,9603 | Ensemble de GBDTs **não agrega** (scores correlacionados) |
-| s11 | Optuna tuning | 50 trials | **Piorou -0,64%** — overfitting ao validation viesado |
-| s12 | Deep Learning | Nenhum DL bateu CatBoost | MLP -4pp, TabNet -8,5pp, AutoEncoder -73pp |
-| **s14** | **Escala 2M** | **CatBoost 0,9614** | 4x dados = +0,11pp (marginal) |
-| **s15** | **Modelo externo** | **CatBoost 6x mais rápido** | RF externo: irreprodutível (5 features anônimas) |
-| **s16** | **Graph + warming** | **+ velocity +0,18pp** | Hipótese refutada: dataset sintético não simula rede |
-| **s17** | **GNN (GraphSAGE)** | **-56,75pp** | Hipótese refutada de novo: GNN precisa de rede real |
-| **s18** | **Cross-dataset (5 DS)** | **Xente 0,9672 · MoMTSim 0,9712** | Pipeline generaliza p/ mobile money; IEEE-CIS/BAF exigem FE/drift |
-| **s19** | **BAF (account takeover)** | **PR-AUC 0,1689** | 12x melhor que random; drift adversarial limita |
-| **s21** | **Calibração (isotonic)** | **Piorou** Brier +3,5% | Modelo já calibrado + poucos positivos = ruído |
+1. **CatBoost default (PR-AUC 0,9614) venceu 8 competidores** — ensemble de GBDTs, deep learning, GNN, tuning com Optuna. Em fraude tabular, o modelo mais simples + features bem desenhadas bate qualquer hype.
+2. **Pipeline generaliza para mobile money**: mesmo código atingiu **0,9672 em Xente (dado REAL de Uganda)** e **0,9712 em MoMTSim** — superando o PIX Fraud BR. Não é overfit.
+3. **Documentar resultados negativos é mais valioso que só mostrar o melhor número**: Optuna piorou (-0,64%), GNN falhou (-56pp), isotonic piorou Brier (+3,5%), e o dataset sintético não simula drift adversarial (BAF 0,17).
 
-**Conclusão mestre**: o sinal em fraude está nas **features contextuais** (drain_score, night_x_ratio, saldo residual), não no modelo. **CatBoost default** com engenharia de features bem feita bate todos os competidores testados.
+---
+
+## 🧩 O problema
+
+O **PIX** é o sistema de pagamentos instantâneos do Banco Central do Brasil — **~5,9 bilhões de transferências/mês**, liquidação **irreversível**, e **~0,77% de fraude** em média (2026). O desafio técnico:
+
+| Desafio | Impacto |
+|---|---|
+| **Desbalanceamento extremo** (0,77%) | Acurácia engana; usar PR-AUC e Recall@k |
+| **Drift temporal** (fraude cresce 20x no mês) | Split aleatório vaza futuro; usar split temporal |
+| **Custo assimétrico** (falso negativo >> falso positivo) | Threshold ótimo ≠ threshold operacional |
+| **Explicabilidade** (regulatório exige auditoria) | SHAP nativo + feature importance |
+
+**Dataset principal**: [PIX Fraud BR](https://huggingface.co/datasets/andremessina/pix-fraud-br) — 2M transações PIX sintéticas (jan/2024), 0,77% de fraude, derivado do PaySim e adaptado às regras do BCB.
+
+---
+
+## 📊 Resultados em destaque
+
+### Performance do modelo principal
+
+| Métrica | Valor |
+|---|---|
+| **PR-AUC** | **0,9614** |
+| ROC-AUC | 0,9928 |
+| F1 (threshold 0,90) | 0,9072 |
+| Precision @ F1 | 0,8903 |
+| Recall @ F1 | 0,9246 |
+| Recall@5% | 0,9014 |
+
+### Cross-dataset benchmark (5 datasets, 12,3M transações)
+
+| Dataset | Tipo | PR-AUC | vs PIX |
+|---|---|---:|---:|
+| **MoMTSim** | Mobile money sintético | **0,9712** | +0,98pp |
+| **Xente** ⭐ | **Mobile money REAL** (Uganda) | **0,9672** | +0,58pp |
+| **PIX Fraud BR** | PIX sintético (nosso) | 0,9614 | baseline |
+| IEEE-CIS | Cartão real | 0,5067 | -45,47pp |
+| PaySim | Mobile money sintético | 0,2170 | -74,44pp |
+| BAF | Bank account sintético | 0,1689 | -79,25pp |
+
+### Impacto financeiro (ROI simulator)
+
+| Cenário | Threshold | Precision | Recall | ROI |
+|---|---|---:|---:|---:|
+| Conservador | 0,90 | 89% | 92% | **18,9x** |
+| **Balanceado** | **0,90** | **89%** | **92%** | **28,6x** |
+| Agressivo | 0,90 | 89% | 92% | **45,6x** |
+
+- **Break-even**: R$ 847 por revisão (56x acima do custo real de R$ 15)
+- **Economia líquida** (10 dias, cenário balanceado): **R$ 1,09M**
+- **Capacidade operacional**: 300 revisões/dia → 89% precision, 92% recall
 
 ---
 
 ## 📈 Visualizações-chave
 
-### Modelos comparados (PR-AUC)
+### 1. Comparação de 9 modelos
 ![Comparação de 9 modelos](docs/images/01_model_comparison.png)
+> CatBoost (2M) = 0,9614 · CatBoost (500k) = 0,9603 · Ensemble = 0,9597 · XGBoost = 0,9587 · LightGBM = 0,9484 · MLP = 0,9206 · TabNet = 0,8753 · AutoEncoder = 0,2280
 
-### Fraude por hora — o sinal mais forte
+### 2. Fraude por hora — o sinal mais forte
 ![Fraude por hora](docs/images/02_fraud_by_hour.png)
+> **46,8% de fraude às 4h** vs 0,57% no diurno — **82x maior**. Noturno (0-5h) concentra 2,7x mais fraude.
 
-### SHAP — features contextuais dominam
+### 3. SHAP — features contextuais dominam
 ![SHAP importance](docs/images/03_shap_importance.png)
+> `drain_score` (interação criada por nós) entra no **top 3**. Saldos residuais + horário noturno + proporção recebedor = 48% da decisão.
 
-### Curva de ROI por threshold
+### 4. Curva de ROI por threshold
 ![ROI curve](docs/images/04_roi_curve.png)
+> 3 cenários de custo (conservador, balanceado, agressivo). Break-even em R$ 847/revisão.
 
-### Walk-forward temporal
+### 5. Walk-forward temporal
 ![Walk-forward](docs/images/05_walk_forward.png)
+> Modelo **não degrada** em drift sintético — mas dataset não simula adversarial drift real.
 
-### Optuna — resultado honesto (pior que default)
+### 6. Optuna — resultado honesto (pior que default)
 ![Optuna trials](docs/images/06_optuna_trials.png)
+> 50 trials, melhor PR-AUC de validação = 0,8908. **Piorou** o teste (-0,64%) por overfitting ao validation viesado.
 
-### Exemplos reais — 3 fraudes com explicação SHAP
+### 7. Exemplos reais — 3 fraudes com SHAP
 ![Real examples](docs/images/07_real_examples.png)
+> Padrão consistente: recebedor com saldo baixo (conta-laranja), horário de madrugada (4-5h), drenagem total (residual ≈ 0), recebedor fica com 100%.
 
-> **Padrão consistente**: recebedor com saldo baixo (conta-laranja), horário de madrugada (4-5h), drenagem total (residual ≈ 0), recebedor fica com 100% do valor.
-
-### Cross-dataset benchmark — pipeline generaliza
+### 8. Cross-dataset benchmark
 ![Cross-dataset benchmark](docs/images/08_cross_dataset.png)
-
-> **Xente (REAL) 0,9672 · MoMTSim 0,9712** — nosso pipeline supera o PIX em mobile money. IEEE-CIS (0,50) e BAF (0,17) exigem feature engineering específico ou drift adversarial.
+> Pipeline **generaliza** para mobile money (Xente REAL 0,9672, MoMTSim 0,9712). IEEE-CIS (0,50) e BAF (0,17) exigem FE específica ou drift adversarial.
 
 ---
 
-## 📂 Estrutura
+## 🔬 As 15 fases de análise
+
+Cada fase está documentada em `docs/` com dashboard executivo, métricas estruturadas e artefatos reproduzíveis.
+
+### Fases principais (resultado positivo)
+
+| Fase | Tema | Melhor resultado | Insight-chave |
+|---|---|---|---|
+| [**s07**](docs/s07_pix_fraud_br/RESULTADOS.md) | EDA + LightGBM + SHAP | PR-AUC 0,954 · F1 0,90 | `drain_score` top 3 SHAP |
+| [**s08**](docs/s08_roi/dashboard_executivo.md) | ROI simulator | ROI 28,6x · break-even R$ 847 | Threshold ótimo ≠ operacional |
+| [**s09**](docs/s09_walk_forward/dashboard_walk_forward.md) | Walk-forward + PSI | Modelo estável | Dataset não simula adversarial drift |
+| [**s10**](docs/s10_ensemble/dashboard_ensemble.md) | Ensemble GBDT | **CatBoost 0,9603** | Ensemble não agrega (scores correlacionados) |
+| [**s14**](docs/s14_scale/dashboard_scale.md) | Escala 2M | CatBoost **0,9614** | 4x dados = +0,11pp (marginal) |
+| [**s15**](docs/s15_external_model/dashboard_external.md) | Modelo externo HF | CatBoost **6x mais rápido** | RandomForest irreprodutível (5 features anônimas) |
+| [**s18**](docs/s18_benchmark/dashboard_benchmark.md) | Cross-dataset | **Xente 0,9672 · MoMTSim 0,9712** | Pipeline generaliza p/ mobile money |
+
+### Fases "resultado honesto" (o que não funcionou)
+
+| Fase | Tentativa | Resultado | Lição |
+|---|---|---|---|
+| [**s11**](docs/s11_optuna/dashboard_optuna.md) | Optuna tuning | **-0,64%** no teste | Overfitting ao validation viesado |
+| [**s12**](docs/s12_deep_learning/dashboard_dl.md) | Deep Learning | MLP -4pp · TabNet -8,5pp · AE -73pp | DL não bate GBDT em tabular |
+| [**s16**](docs/s16_graph/dashboard_graph.md) | Graph + warming | + velocity +0,18pp | Graph hand-crafted não agrega |
+| [**s17**](docs/s17_gnn/dashboard_gnn.md) | GNN (GraphSAGE) | **-56,75pp** | Rede sintética não tem sinal |
+| [**s19**](docs/s19_baf_takeover/dashboard_baf.md) | BAF (account takeover) | PR-AUC 0,1689 | 12x melhor que random; drift adversarial limita |
+| [**s21**](docs/s21_calibration_pix/dashboard_calibration.md) | Calibração isotônica | **Piorou** Brier +3,5% | Modelo já calibrado + poucos positivos = ruído |
+
+---
+
+## 💡 As 5 lições aprendidas
+
+### 1. O sinal está nas features, não no modelo
+**`drain_score`** (interação `(1 - residual_balance_ratio) × receiver_amount_ratio × (is_night + 1)`) é a feature mais importante do SHAP depois dos saldos. **Contexto mata modelo complexo.**
+
+### 2. Split temporal é obrigatório
+Split aleatório vaza futuro e **inflaciona** PR-AUC em +5-10pp. Em fraude, sempre split por tempo. Sempre.
+
+### 3. Hype ≠ performance
+| Tentativa | Resultado vs CatBoost |
+|---|---|
+| Ensemble LGBM+XGB+CB | -0,06% |
+| Optuna (50 trials) | -0,64% |
+| Deep Learning (MLP) | -4,08% |
+| TabNet | -8,61% |
+| GNN (GraphSAGE) | -56,75% |
+
+### 4. Documentar resultados negativos é diferencial
+Saber **onde o método falha** (BAF: drift adversarial, IEEE-CIS: feature space diferente) vale mais que "meu modelo deu 0,96".
+
+### 5. Calibração importa mais que PR-AUC em produção
+Um modelo com PR-AUC 0,96 mas descalibrado pode ter threshold operacional errado. **Custo de operar errado supera ganho de métrica.**
+
+---
+
+## 📂 Estrutura do repositório
 
 ```
-fraud/
-├── PLANO_ESTUDO.md             # plano de 8 semanas
+Fraud-Analytics-PIX-Fraud-Detection-/
 ├── README.md                    # este arquivo
-├── data/                        # datasets (gitignored)
-├── notebooks/                   # notebooks EDA/features
-├── sql/                         # queries analíticas
-├── dashboards/s05/app.py        # dashboard Streamlit
-├── scripts/                     # pipelines reproduzíveis
-│   ├── adapters/                # adaptadores de schema
-│   ├── generate_synthetic.py
-│   ├── feature_engineering.py
-│   ├── anomaly_detection.py
-│   ├── supervised_model.py
-│   ├── shap_explain.py
-│   ├── roi_simulator.py
-│   ├── walk_forward.py
-│   ├── psi_drift.py
-│   ├── ensemble_gpu.py
-│   ├── optuna_tuning.py
-│   └── deep_learning.py
-└── docs/                        # dashboards executivos por fase
-    ├── s07_pix_fraud_br/        # RESULTADOS.md, model_metrics.json, SHAP
-    ├── s08_roi/                 # dashboard_executivo.md, Monte Carlo
-    ├── s09_walk_forward/        # windows.csv, PSI
-    ├── s10_ensemble/            # model_comparison.csv
-    ├── s11_optuna/              # optuna_trials.csv, best_params.json
-    └── s12_deep_learning/       # model_comparison.csv
+├── MODEL_CARD.md                # formato Hugging Face
+├── docs/
+│   ├── ARTIGO_MEDIUM.md         # artigo para Medium
+│   ├── SLIDES.md                # 10 slides
+│   ├── DEPLOY.md                # guia GitHub + Streamlit Cloud
+│   ├── s04 → s21                # 15 dashboards executivos
+│   ├── images/                  # 8 gráficos (01 → 08)
+│   └── s06/                     # case técnico resolvido
+├── scripts/                     # 20+ pipelines reproduzíveis
+│   ├── s18 → s21                # cross-dataset, BAF, calibração
+│   ├── api.py                   # FastAPI /predict
+│   └── fetch_bcb_data.py        # BCB API (exploração)
+├── dashboards/s05/              # Streamlit (5 páginas)
+│   ├── app.py                   # home (dados reais HF + grafo)
+│   └── pages/
+│       ├── 02_ROI_Calculator.py
+│       ├── 03_What_if.py
+│       ├── 04_Feature_Explorer.py
+│       └── 05_Cross_Dataset.py
+└── .github/workflows/ci.yml     # CI verde
 ```
 
 ---
 
 ## 🚀 Como reproduzir
 
+### Opção A — 3 comandos (recomendado)
+
 ```bash
-# 1. ambiente
-python -m venv .venv
-.venv/Scripts/activate                    # Windows
+git clone https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-.git
+cd Fraud-Analytics-PIX-Fraud-Detection-
+pip install -r requirements.txt && python scripts/adapters/pix_fraud_br.py && python scripts/eda_pix_fraud_br.py
+```
+
+O terceiro comando baixa o dataset (2M PIX), roda EDA e gera relatórios em `docs/s07_pix_fraud_br/`.
+
+### Opção B — Pipeline completo por fase
+
+```bash
+# Setup
+python -m venv .venv && .venv/Scripts/activate    # Windows
 pip install -r requirements.txt
 pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install pytorch-tabnet optuna
+pip install pytorch-tabnet optuna shap
 
-# 2. baixar dataset PIX Fraud BR
+# Baixar dados
 python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='andremessina/pix-fraud-br', repo_type='dataset', local_dir='data/pix_fraud_br')"
 
-# 3. adaptar schema
-python scripts/adapters/pix_fraud_br.py
-
-# 4. pipelines por fase
+# Pipelines por fase
 python scripts/eda_pix_fraud_br.py                  # s07 — EDA
 python scripts/supervised_model.py --sample 500000  # s07 — modelo base
 python scripts/shap_explain.py                      # s07 — explicabilidade
@@ -125,8 +227,10 @@ python scripts/psi_drift.py                         # s09 — monitoramento
 python scripts/ensemble_gpu.py                      # s10 — ensemble
 python scripts/optuna_tuning.py                     # s11 — tuning
 python scripts/deep_learning.py --sample 200000     # s12 — DL
+python scripts/s18_cross_dataset_benchmark.py       # s18 — 5 datasets
+python scripts/s19_baf_deep_dive.py                 # s19 — BAF
 
-# 5. dashboard Streamlit
+# Dashboard
 streamlit run dashboards/s05/app.py
 ```
 
@@ -137,101 +241,65 @@ streamlit run dashboards/s05/app.py
 | Requisito | Onde está coberto | Evidência |
 |---|---|---|
 | EDA, anomalias, hipóteses | s07, s04 | `RESULTADOS.md` + SHAP + benchmark pyod |
-| SQL para grandes volumes | sql/ (10+ queries) | window functions, velocity, chargeback rate |
-| Fraude financeira (transacional, cartão, PIX) | s07 (EDA PIX), s08 (ROI) | Padrão de drenagem de conta, limite noturno |
-| Comunicação de insights | s07 (`insights_executivos.md`), s08 (dashboard executivo) | 1-pagers + elevator pitch |
-| Inglês intermediário | docs em EN técnico | README, dashboards |
+| SQL para grandes volumes | `sql/` (10+ queries) | window functions, velocity, chargeback rate |
+| Fraude financeira (PIX, cartão, mobile money) | s07, s18 | Padrão de drenagem, limite noturno, 5 datasets |
+| Comunicação de insights | s07, s08, `ARTIGO_MEDIUM.md` | 1-pagers + elevator pitch + artigo |
+| Inglês técnico | docs em EN | README, dashboards |
 
 **Diferenciais demonstrados**:
-- Rigor metodológico: split temporal, PR-AUC (não accuracy), bootstrap IC 95%
-- Honestidade científica: documenta **resultados negativos** (ensemble/Optuna/DL)
-- Sensibilidade a negócio: capacity constraint, break-even, threshold por F1 vs custo
-- Reproducibilidade: pipelines por script, sem notebooks frágeis
+- ✅ Rigor metodológico: split temporal, PR-AUC (nunca acurácia), bootstrap IC 95%
+- ✅ Honestidade científica: **documenta resultados negativos** (ensemble, Optuna, DL, GNN, isotonic)
+- ✅ Sensibilidade a negócio: capacity constraint, break-even, threshold por F1 vs custo
+- ✅ Reproducibilidade: pipelines por script, sem notebooks frágeis
+- ✅ Generalização: valida em **Xente (REAL)** e outros 4 datasets
 
 ---
 
-## 📈 Progressão de performance (o "gráfico" que importa)
+## 🏆 Comparação com estado da arte
 
-| Modelo | PR-AUC | Comentário |
-|---|---|---|
-| Regras de negócio | 0,49 (proxy) | Baseline interpretável |
-| IForest / LOF / OCSVM | 0,02–0,03 | **Anomalia falha em PIX** |
-| LightGBM default | 0,948 | Baseline GBDT |
-| LightGBM + features contexto | 0,954 | `drain_score` entra |
-| CatBoost default | **0,9603** | **Melhor modelo** |
-| CatBoost + Optuna | 0,9533 | Tuning piorou |
-| MLP (focal loss) | 0,9206 | DL não bate |
-| TabNet | 0,8753 | Attention não bate |
-| AutoEncoder | 0,2280 | Anomalia falha de novo |
+| Abordagem | Fonte | PR-AUC | Contexto |
+|---|---|---:|---|
+| **Nosso (CatBoost + features)** | este repo | **0,9614** | PIX, 2M tx, split temporal |
+| **Nosso (Xente, mobile money real)** | este repo | **0,9672** | Uganda, 95k tx, split temporal |
+| Fraude de cartão (ULB) — baseline | literatura | 0,85–0,92 | 284k tx, 0,17% fraude |
+| IEEE-CIS Fraud Detection (Kaggle) — top 1% | Kaggle 2019 | 0,94–0,96 | cartão + e-commerce |
+| Feedzai OpenML (produção) | Feedzai | n/a | foco em streaming |
+| Fraud Detection Handbook (Carcillo et al.) | 2018 | 0,80–0,90 | literatura clássica |
+| Deep learning para tabular | Shwartz-Ziv & Armon (2022) | igual ou pior que GBDT | confirma nossa hipótese |
+
+**Interpretação**: 0,9614 em PIX é **competitivo com estado da arte**. O ganho real de produção não vem de 0,96 vs 0,97 — vem de **threshold operacional + integração com device/location intelligence**.
+
+---
+
+## 🚀 Deploy
+
+### GitHub
+Repositório público: [vinidias/Fraud-Analytics-PIX-Fraud-Detection-](https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-)
+
+### Streamlit Cloud
+Guia completo em [docs/DEPLOY.md](./docs/DEPLOY.md). Resumo (5 min):
+1. https://share.streamlit.io → **New app**
+2. Repository: `vinidias/Fraud-Analytics-PIX-Fraud-Detection-`
+3. Main file: `dashboards/s05/app.py`
+4. Python: **3.12** · Requirements: `dashboards/s05/requirements.txt`
+
+O dashboard vai puxar dados reais do Hugging Face automaticamente.
 
 ---
 
 ## 🔗 Referências
 
-- Dataset: [andremessina/pix-fraud-br](https://huggingface.co/datasets/andremessina/pix-fraud-br)
-- Metodologia: [Fraud Detection Handbook](https://fraud-detection-handbook.github.io/fraud-detection-handbook/)
-- Bibliotecas: [CatBoost](https://catboost.ai/), [SHAP](https://shap.readthedocs.io/), [pyod](https://pyod.dev/), [Optuna](https://optuna.org/)
+- **Dataset principal**: [andremessina/pix-fraud-br](https://huggingface.co/datasets/andremessina/pix-fraud-br)
+- **Benchmark público**: [mkbadeniyi/fraud-detection-benchmark](https://huggingface.co/datasets/mkbadeniyi/fraud-detection-benchmark)
+- **Metodologia**: [Fraud Detection Handbook](https://fraud-detection-handbook.github.io/fraud-detection-handbook/)
+- **Bibliotecas**: [CatBoost](https://catboost.ai/) · [SHAP](https://shap.readthedocs.io/) · [pyod](https://pyod.dev/) · [Optuna](https://optuna.org/)
 
 ---
-
-## ⚡ Como rodar em 3 comandos
-
-```bash
-git clone https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-.git
-cd Fraud-Analytics-PIX-Fraud-Detection-
-pip install -r requirements.txt && python scripts/adapters/pix_fraud_br.py && python scripts/eda_pix_fraud_br.py
-```
-
-O terceiro comando baixa o dataset (2M PIX), roda EDA e gera relatórios em `docs/s07_pix_fraud_br/`.
-
-Para o dashboard:
-```bash
-streamlit run dashboards/s05/app.py
-```
-
-## 📚 Lições aprendidas (honestas)
-
-### ✅ O que funcionou
-- **Engenharia de features contextuais** (`drain_score`, `night_x_ratio`) — o sinal mora aqui
-- **CatBoost default** — bateu todos os 8 competidores
-- **Split temporal rigoroso** + PR-AUC (nunca acurácia)
-- **SHAP** — explicabilidade sem sacrificar performance
-- **Documentar resultados negativos** — o que não funcionou é tão valioso quanto o que funcionou
-
-### ⚠️ O que NÃO funcionou (e por quê)
-| Tentativa | Resultado | Lição |
-|---|---|---|
-| **Ensemble LGBM+XGB+CB** | -0,06% vs CatBoost | 3 GBDTs correlacionados não formam ensemble útil |
-| **Optuna (50 trials)** | -0,64% no teste | Overfitting ao validation viesado (drift temporal) |
-| **Deep Learning (MLP, TabNet)** | -4pp, -8,5pp | DL não bate GBDT em tabular |
-| **AutoEncoder (anomalia)** | -73pp (0,23 vs 0,96) | Fraude PIX não é outlier puro — é **contextual** |
-| **Escalar 4x dados** | +0,11pp (2M vs 500k) | Modelo já estava saturado em 500k |
-
-### 🎯 A conclusão mestre
-> **O sinal em fraude está nas features, não no modelo.** CatBoost default + features contextuais bem desenhadas + SHAP + rigor metodológico bate qualquer tentativa de "hype" (deep learning, ensemble, tuning cego).
-
-## 🏆 Comparação com estado da arte
-
-Como nosso resultado se posiciona vs. o que existe em literatura/produção:
-
-| Abordagem | Fonte | PR-AUC | Contexto |
-|---|---|---|---|
-| **Nosso (CatBoost + features)** | este repo | **0,9614** | PIX, 2M tx, split temporal |
-| Fraude de cartão (ULB) — baseline | literatura | 0,85–0,92 | 284k tx, 0,17% fraude |
-| IEEE-CIS Fraud Detection (Kaggle) — top 1% | Kaggle 2019 | 0,94–0,96 | cartão + e-commerce |
-| Feedzai OpenML (produção) | Feedzai | n/a | foco em streaming, não batch |
-| Fraud Detection Handbook (Carcillo et al.) | 2018 | 0,80–0,90 | literatura clássica |
-| Deep learning para tabular | Shwartz-Ziv & Armon (2022) | igual ou pior que GBDT | confirma nossa hipótese |
-
-**Interpretação**: 0,9614 em PIX é **competitivo com estado da arte** (IEEE-CIS top 1%), e o dataset é sintético — o número absoluto importa menos que o **processo** (split temporal, feature engineering, explicabilidade, ROI). O ganho real de produção não vem de 0,96 vs 0,97 — vem de **threshold operacional + integração com device/location intelligence**.
-
-## 🚀 Deploy
-
-Guia completo em [docs/DEPLOY.md](./docs/DEPLOY.md). Resumo:
-- GitHub: repositório público `fraud-analytics`
-- Streamlit Cloud: deploy do dashboard via UI (2 min)
-- URL amigável + badge atualizado no README
 
 ## 📄 Licença
 
 MIT — uso livre para estudo e portfólio.
+
+---
+
+**Autor**: Vinicius Dias · [GitHub](https://github.com/vinidias) · 2026
