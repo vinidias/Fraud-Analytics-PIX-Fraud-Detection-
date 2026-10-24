@@ -25,7 +25,7 @@ st.set_page_config(
 st.title("🛡️ Fraud Monitor — PIX")
 st.caption(
     "Fraud Analytics · PIX · "
-    "[github.com/vinic/fraud-analytics](https://github.com/vinic/fraud-analytics)"
+    "[github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-](https://github.com/vinidias/Fraud-Analytics-PIX-Fraud-Detection-)"
 )
 
 
