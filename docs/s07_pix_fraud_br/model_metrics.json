@@ -1,0 +1,77 @@
+{
+  "dataset": "pix-fraud-br",
+  "sample_size": 500000,
+  "train_size": 475246,
+  "test_size": 24754,
+  "test_fraud_rate_pct": 5.0376,
+  "n_features": 16,
+  "baseline_rules": {
+    "precision": 0.626,
+    "recall": 0.1973,
+    "f1": 0.3,
+    "n_flagged": 393
+  },
+  "lightgbm": {
+    "pr_auc": 0.9541,
+    "roc_auc": 0.9928,
+    "recall@1%": 0.1973,
+    "recall@5%": 0.8957,
+    "recall@10%": 0.9791,
+    "threshold_by_cost": {
+      "threshold": 0.0,
+      "precision": 0.0505,
+      "recall": 1.0,
+      "f1": 0.0961,
+      "fp": 23457,
+      "fn": 0
+    },
+    "threshold_by_f1": {
+      "threshold": 0.8668,
+      "precision": 0.9067,
+      "recall": 0.8957,
+      "f1": 0.9012
+    }
+  },
+  "feature_importance_top10": [
+    {
+      "feature": "saldo_anterior_recebedor",
+      "importance": 1208
+    },
+    {
+      "feature": "saldo_posterior_pagador",
+      "importance": 762
+    },
+    {
+      "feature": "hora_dia",
+      "importance": 756
+    },
+    {
+      "feature": "receiver_amount_ratio",
+      "importance": 735
+    },
+    {
+      "feature": "saldo_anterior_pagador",
+      "importance": 607
+    },
+    {
+      "feature": "amount",
+      "importance": 387
+    },
+    {
+      "feature": "saldo_posterior_recebedor",
+      "importance": 385
+    },
+    {
+      "feature": "drain_score",
+      "importance": 368
+    },
+    {
+      "feature": "residual_balance_ratio",
+      "importance": 348
+    },
+    {
+      "feature": "night_x_ratio",
+      "importance": 183
+    }
+  ]
+}

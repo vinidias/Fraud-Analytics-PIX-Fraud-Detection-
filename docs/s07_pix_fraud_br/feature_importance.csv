@@ -1,0 +1,17 @@
+feature,importance
+saldo_anterior_recebedor,1208
+saldo_posterior_pagador,762
+hora_dia,756
+receiver_amount_ratio,735
+saldo_anterior_pagador,607
+amount,387
+saldo_posterior_recebedor,385
+drain_score,368
+residual_balance_ratio,348
+night_x_ratio,183
+is_workday,140
+night_x_residual,121
+limit_x_residual,67
+is_night,7
+above_night_limit,2
+log_amount,0
