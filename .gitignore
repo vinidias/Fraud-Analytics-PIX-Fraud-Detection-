@@ -1,31 +1,25 @@
-<path>D:/Dev/fraud/.gitignore</path>
-<type>file</type>
-<content>
-1: # Dados (não versionar)
-2: data/
-3: *.csv
-4: *.parquet
-5: *.zip
-6: 
-7: # Python
-8: __pycache__/
-9: *.py[cod]
-10: .venv/
-11: venv/
-12: .ipynb_checkpoints/
-13: 
-14: # Env
-15: .env
-16: 
-17: # OS / IDE
-18: .DS_Store
-19: Thumbs.db
-20: .vscode/
-21: .idea/
-22: 
-23: # Logs temporários de scripts
-24: *.log
-25: 
+# Dados (não versionar)
+data/
+*.parquet
+*.zip
+*.csv
+!docs/**/*.csv
 
-(End of file - total 25 lines)
-</content>
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Env
+.env
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs temporários de scripts
+*.log
