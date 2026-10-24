@@ -1,0 +1,23 @@
+{
+  "n_trials": 50,
+  "baseline_pr_auc": 0.9598,
+  "optuna_pr_auc": 0.9533,
+  "ganho_pct": -0.64,
+  "ic95_baseline": [0.9526, 0.9669],
+  "ic95_optuna": [0.9444, 0.9617],
+  "significativo": false,
+  "conclusao": "Optuna PIOROU o modelo (overfitting ao validation set viesado)",
+  "razao_principal": "Drift temporal - validation (dias 18-21) tem distribuicao diferente do test (dias 22-31)",
+  "recomendacao": "Manter CatBoost default. Focar em features + walk-forward CV em vez de tuning cego",
+  "tempo_optuna_s": 637.2,
+  "best_params_optuna": {
+    "iterations": 488,
+    "learning_rate": 0.0199,
+    "depth": 4,
+    "l2_leaf_reg": 0.484,
+    "random_strength": 0.226,
+    "bagging_temperature": 0.0229,
+    "border_count": 227,
+    "min_data_in_leaf": 58
+  }
+}
