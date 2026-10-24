@@ -1,0 +1,13 @@
+# Normalize EOL
+* text=auto eol=lf
+
+# Binary files
+*.parquet binary
+*.pkl binary
+*.pt binary
+*.pth binary
+*.onnx binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
