@@ -96,7 +96,7 @@ contribs = {
 }
 
 df_contribs = pd.DataFrame(list(contribs.items()), columns=["feature", "contribuicao"])
-df_contribs = df_contribs.sort_values("contribuicao")
+df_contribs = df_contribs.sort_values("contribuicao").reset_index(drop=True) if len(df_contribs) > 0 else df_contribs
 colors = ["red" if v > 0 else "blue" for v in df_contribs["contribuicao"]]
 
 fig = go.Figure(go.Bar(
