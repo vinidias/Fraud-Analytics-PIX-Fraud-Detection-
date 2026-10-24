@@ -1,0 +1,2 @@
+modelo,n_nodes,n_edges,n_train,n_test,pr_auc,brier,f1,precision,recall,tempo_treino_s,device,n_params
+GNN (GraphSAGE bipartido),96896,50000,47543,2457,0.3928,0.26303,0.425,0.6939,0.3063,7.0,cpu,6235137
