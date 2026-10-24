@@ -23,8 +23,8 @@ if SHAP_PATH.exists():
     df_shap = df_shap.sort_values("pct_of_total", ascending=True)
 
     st.header("Importancia global das features")
-    fig = px.barh(
-        df_shap, x="pct_of_total", y="feature",
+    fig = px.bar(
+        df_shap, x="pct_of_total", y="feature", orientation="h",
         title="Top features por % do |SHAP| total",
         labels={"pct_of_total": "% do total", "feature": "Feature"},
     )
