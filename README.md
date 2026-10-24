@@ -21,6 +21,8 @@ Dataset principal: [**PIX Fraud BR**](https://huggingface.co/datasets/andremessi
 | s10 | Ensemble GBDT | **CatBoost** 0,9603 | Ensemble de GBDTs **não agrega** (scores correlacionados) |
 | s11 | Optuna tuning | 50 trials | **Piorou -0,64%** — overfitting ao validation viesado |
 | s12 | Deep Learning | Nenhum DL bateu CatBoost | MLP -4pp, TabNet -8,5pp, AutoEncoder -73pp |
+| **s14** | **Escala 2M** | **CatBoost 0,9614** | 4x dados = +0,11pp (marginal) |
+| **s15** | **Modelo externo** | **CatBoost 6x mais rápido** | RF externo: irreprodutível (5 features anônimas) |
 
 **Conclusão mestre**: o sinal em fraude está nas **features contextuais** (drain_score, night_x_ratio, saldo residual), não no modelo. **CatBoost default** com engenharia de features bem feita bate todos os competidores testados.
 

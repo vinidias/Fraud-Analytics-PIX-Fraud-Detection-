@@ -1,0 +1,2 @@
+modelo,tamanho_kb,pr_auc,brier,f1,precision,recall,origem
+CatBoost (nosso),~500,0.9603,0.01285,0.9072,0.8903,0.9246,treinado no treino
