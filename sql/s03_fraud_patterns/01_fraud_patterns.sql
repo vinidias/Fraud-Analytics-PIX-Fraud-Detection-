@@ -1,6 +1,6 @@
 -- ============================================================
 -- Semana 2 — Padrões clássicos de fraude em SQL
--- Contexto Incognia: identidade mobile, device, localização
+-- Contexto: identidade mobile, device, localização
 -- ============================================================
 
 -- 1. Um device usado por múltiplos clientes (account takeover / farm)

@@ -4,7 +4,7 @@
 # Dataset: https://www.kaggle.com/mlg-ulb/creditcardfraud
 # Colocar o CSV em ../data/creditcard.csv (relativo a este notebook)
 #
-# Entregável (vaga Incognia): notebook com perfil de fraude + hipóteses + insights
+# Entregável: notebook com perfil de fraude + hipóteses + insights
 
 # %% [markdown]
 # ## 0. Setup

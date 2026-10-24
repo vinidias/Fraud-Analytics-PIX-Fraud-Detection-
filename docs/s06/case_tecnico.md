@@ -1,7 +1,7 @@
-# Semana 8 — Case Técnico Simulado (estilo Incognia)
+# Semana 8 — Case Técnico Simulado (Fraude PIX)
 
 ## Contexto
-Você é **Fraud Data Analyst** na Incognia. Um cliente fintech reporta aumento de **40% no chargeback rate** nos últimos 30 dias. Você recebe:
+Você é **Fraud Data Analyst** de uma fintech. O time reporta aumento de **40% no chargeback rate** nos últimos 30 dias. Você recebe:
 
 - `transactions.csv` — transações do período
 - `chargebacks.csv` — disputas registradas

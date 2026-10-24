@@ -1,8 +1,7 @@
-# Plano de Estudo — Fraud Data Analyst @ Incognia
+# Plano de Estudo — Fraud Analytics
 
 ## Objetivo
-Preparar para a vaga de Fraud Data Analyst (Incognia, Recife/Remoto, CLT R$11.6k–15.4k).
-Foco: EDA + SQL + prevenção a fraude no setor financeiro (transacional, pagamentos, cartões, crédito, chargebacks) + comunicação de insights.
+Dominar o pipeline completo de detecção de fraude: EDA + SQL + prevenção a fraude no setor financeiro (transacional, pagamentos, cartões, crédito, chargebacks) + comunicação de insights.
 
 ## Mapeamento vaga → competências
 | Requisito | Competência | Repos de estudo |
@@ -64,7 +63,7 @@ Foco: EDA + SQL + prevenção a fraude no setor financeiro (transacional, pagame
 - Entregável: notebook EDA com perfil de fraude, distribuições, correlações.
 
 ### Semana 3–4 — Fraude transacional & cartão
-- Estudar chargebacks, regras de negócio, velocity checks, device fingerprinting (contexto Incognia).
+- Estudar chargebacks, regras de negócio, velocity checks, device fingerprinting.
 - Praticar feature engineering: agregações por usuário/merchant, tempo entre transações, valor vs. baseline.
 - Entregável: pipeline de features em pandas/Polars + análise de taxa de fraude por segmento.
 
@@ -79,7 +78,7 @@ Foco: EDA + SQL + prevenção a fraude no setor financeiro (transacional, pagame
 - Entregável: dashboard + 1-pager executivo.
 
 ### Semana 8 — Simulação de case técnico
-- Resolver um case no estilo Incognia (dado um dataset, identificar padrões de fraude, propor regras, comunicar).
+- Resolver um case técnico de fraude: identificar padrões, propor regras, comunicar resultados.
 - Praticar "Living Code" (SQL/Python ao vivo) e entrevista em inglês.
 
 ## Métricas de sucesso

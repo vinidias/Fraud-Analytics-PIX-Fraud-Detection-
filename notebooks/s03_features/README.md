@@ -3,8 +3,8 @@
 ## Objetivo
 Traduzir padrões de fraude do domínio (chargebacks, velocity, device, localização) em features que modelos de ML e regras de negócio possam usar.
 
-## Contexto Incognia
-A Incognia combina:
+## Sinais combinados em fraude mobile
+O modelo combina:
 - **Inteligência de localização** (impossible travel, geofencing)
 - **Sinais de dispositivo** (fingerprint, device sharing)
 - **Análise comportamental** (velocity, valores atípicos)
