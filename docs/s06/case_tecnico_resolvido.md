@@ -58,6 +58,7 @@ WHERE hora_dia BETWEEN 0 AND 5
   AND receiver_amount_ratio > 0.95
   AND above_night_limit = TRUE;
 ```
+
 **Impacto medido**:
 - Precision: **73%**
 - Recall: **96%**
@@ -137,7 +138,7 @@ As figuras abaixo estão em `docs/images/` — prontas para slide deck:
 
 **Estrutura recomendada de 5 slides**:
 
-1. **Situação** — 20× aumento em 1 mês · gráfico `02`
+1. **Situação** — 20x aumento em 1 mês · gráfico `02`
 2. **Análise** — 3 sinais contextuais · gráfico `03`
 3. **Modelo** — CatBoost 0,9614 · gráfico `01`
 4. **Operação** — threshold + capacity + ROI · gráfico `04`
