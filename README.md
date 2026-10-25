@@ -197,6 +197,66 @@ Cada fase está documentada em `docs/` com dashboard executivo, métricas estrut
 | [**s17**](docs/s17_gnn/dashboard_gnn.md) | GNN (GraphSAGE) | **-56,75pp** | Rede sintética não tem sinal |
 | [**s19**](docs/s19_baf_takeover/dashboard_baf.md) | BAF (account takeover) | PR-AUC 0,1689 | 12x melhor que random; drift adversarial limita |
 | [**s21**](docs/s21_calibration_pix/dashboard_calibration.md) | Calibração isotônica | **Piorou** Brier +3,5% | Modelo já calibrado + poucos positivos = ruído |
+| [**s22**](docs/s22_bcb_scenarios/dashboard_scenarios.md) | **Cenários BCB** (golpes) | **Valor redondo 5,9x · Madrugada 4,2x** | Conta zumbi pura é **refutada** (lift 0,99); conta zumbi + alto valor = 3,3x |
+| [**s23**](docs/s23_mule_networks/dashboard_mules.md) | **Mule Networks** | **Conta drenada 9,1x · Mula ativa 7,9x** | Fanout alto é **refutado** (lift 0,55); rede de laranjas é capturável |
+| [**s24**](docs/s24_med_simulation/dashboard_med.md) | **MED simulator** | **Fila priorizada ROI 72.651x** | Modelo ML puro = 10,9x — **priorização por valor é 6.600x melhor** |
+
+---
+
+## 🇧🇷 Descobertas dos cenários do Banco Central
+
+Três experimentos validaram (ou refutaram) hipóteses de golpes documentados pelo BCB:
+
+### s22 — Cenários de golpe
+
+| Cenário | N tx | N fraude | Taxa fraude | Descrição |
+|---|---:|---:|---:|---|
+| **Mula (conta-laranja)** | 21.371 | 7.685 | **35,96%** | Recebedor com saldo baixo antes |
+| **Falso Funcionário** | 2.964 | 1.328 | **44,80%** | Vítima transfere acreditando ser o banco |
+| **Perfil Falso** | 255.400 | 1.894 | 0,74% | Produto inexistente (conta recém-criada) |
+
+**Hipóteses testadas (chi-squared, p<0,05)**:
+
+| Hipótese | Lift | p-value | Veredicto |
+|---|---:|---:|---|
+| **Valor redondo (múltiplo de 100)** | **5,90x** | <1e-118 | ✅ **Confirmada (mais forte)** |
+| **Madrugada (0-4h)** | **4,21x** | <1e-300 | ✅ Confirmada |
+| **Conta zumbi + alto valor** | **3,35x** | <1e-117 | ✅ Confirmada |
+| Recebedor top 10% volume | 1,12x | 1e-5 | ✅ Confirmada (fraca) |
+| Conta zumbi (só 1 tx) | 0,99x | 0,71 | ❌ **Refutada** |
+| Primeira tx da conta | 0,69x | <1e-108 | ❌ **Refutada** (é protetor) |
+| 3+ tx na última hora | 0,75x | 1,0 | ❌ Refutada (dataset sintético não simula burst) |
+
+### s23 — Mule networks (redes de laranjas)
+
+| Hipótese | Lift | p-value | Veredicto |
+|---|---:|---:|---|
+| **Conta drenada** (saldo residual < 5%) | **9,14x** | <1e-300 | ✅ **Confirmada (mais forte)** |
+| **Mula ativa** (in≥3, out≥2, drenada) | **7,93x** | <1e-300 | ✅ Confirmada |
+| **Mula candidata** (in≥3, out≥2) | **1,30x** | 9e-51 | ✅ Confirmada (fraca) |
+| Fanout ratio > 3 | 0,55x | 7e-53 | ❌ **Refutada** (é protetor) |
+
+**Insight**: O sinal não está no "fanout" (receber de muitos, repassar para poucos), mas na **drenagem final** (saldo residual ~0). A conta-laranja clássica **recebe e drena** — e isso é detectável.
+
+### s24 — MED simulator (recuperação via política)
+
+| Política | Flag | Fraudes pegas | Valor recuperado | ROI |
+|---|---:|---:|---:|---:|
+| **P4: Fila priorizada (score × valor)** | 2.700 | 1.137 | **R$ 2,94B** | **72.651x** |
+| P2: Regra de negócio (noturno + drenagem) | 1.557 | 985 | R$ 1,59B | 67.872x |
+| P3: Modelo ML puro (F1 ótimo) | 2.700 | 104 | R$ 0,48M | **10,9x** |
+| P1: Sem interdição | 0 | 0 | R$ 0 | 0x |
+
+**Descoberta-chave**: **priorizar por valor esperado (score × amount) é 6.600x melhor que threshold único**. O modelo ML puro tem ROI de 10,9x; a fila priorizada, **72.651x**. Isso é o que o paper do PixSim chama de "**value waterfall**" — a política importa mais que o scorer.
+
+![Hipóteses de fraude](docs/images/09_hypotheses_lift.png)
+
+![Políticas MED](docs/images/10_med_policies.png)
+
+**Inspirado em:**
+- [ghs-mk/pixfraudeproject](https://github.com/ghs-mk/pixfraudeproject) — contas zumbis, top accounts
+- [MatheusFran/pix-detection-fraud](https://github.com/MatheusFran/pix-detection-fraud) — decomposição temporal (hora, minuto, categoria)
+- [PixSim (arXiv 2609.30684)](https://arxiv.org/abs/2609.30684) — mule networks, MED, analyst capacity
 
 ---
 

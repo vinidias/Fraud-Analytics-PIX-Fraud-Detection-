@@ -1,0 +1,8 @@
+hipotese,n_group,n_total,frac_grupo_pct,fraud_rate_grupo_pct,fraud_rate_resto_pct,lift,chi2,p_value,significante_5pct
+H1: Conta zumbi (1 tx),261814,2000000,13.09,0.7628,0.7697,0.99,0.14,0.7129859687052711,False
+H1b: Conta zumbi + alto valor (P95),13008,2000000,0.65,2.5369,0.7572,3.35,534.2,3.4401842516266914e-118,True
+H2: Recebedor top 10% volume,200000,2000000,10.0,0.85,0.7598,1.12,19.09,1.24829745639093e-05,True
+H3: Valor redondo (multiplo de 100),3269,2000000,0.16,4.4968,0.7627,5.9,591.62,1.113923894400896e-130,True
+H4: Primeira tx da conta,826641,2000000,41.33,0.6056,0.8838,0.69,491.66,6.21491756491419e-109,True
+H5: 3+ tx na ultima hora,173,2000000,0.01,0.578,0.7688,0.75,0.0,1.0,False
+H6: Madrugada (0-4h),119951,2000000,6.0,2.7128,0.6448,4.21,6318.27,0.0,True

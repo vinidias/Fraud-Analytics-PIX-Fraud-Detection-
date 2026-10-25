@@ -1,0 +1,114 @@
+{
+  "dataset": "pix-fraud-br",
+  "inspirado_em": [
+    "ghs-mk/pixfraudeproject",
+    "MatheusFran/pix-detection-fraud",
+    "PixSim arXiv 2609.30684"
+  ],
+  "hipoteses": [
+    {
+      "hipotese": "H1: Conta zumbi (1 tx)",
+      "n_group": 261814,
+      "n_total": 2000000,
+      "frac_grupo_pct": 13.09,
+      "fraud_rate_grupo_pct": 0.7628,
+      "fraud_rate_resto_pct": 0.7697,
+      "lift": 0.99,
+      "chi2": 0.14,
+      "p_value": 0.7129859687052711,
+      "significante_5pct": false
+    },
+    {
+      "hipotese": "H1b: Conta zumbi + alto valor (P95)",
+      "n_group": 13008,
+      "n_total": 2000000,
+      "frac_grupo_pct": 0.65,
+      "fraud_rate_grupo_pct": 2.5369,
+      "fraud_rate_resto_pct": 0.7572,
+      "lift": 3.35,
+      "chi2": 534.2,
+      "p_value": 3.4401842516266914e-118,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H2: Recebedor top 10% volume",
+      "n_group": 200000,
+      "n_total": 2000000,
+      "frac_grupo_pct": 10.0,
+      "fraud_rate_grupo_pct": 0.85,
+      "fraud_rate_resto_pct": 0.7598,
+      "lift": 1.12,
+      "chi2": 19.09,
+      "p_value": 1.24829745639093e-05,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H3: Valor redondo (multiplo de 100)",
+      "n_group": 3269,
+      "n_total": 2000000,
+      "frac_grupo_pct": 0.16,
+      "fraud_rate_grupo_pct": 4.4968,
+      "fraud_rate_resto_pct": 0.7627,
+      "lift": 5.9,
+      "chi2": 591.62,
+      "p_value": 1.113923894400896e-130,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H4: Primeira tx da conta",
+      "n_group": 826641,
+      "n_total": 2000000,
+      "frac_grupo_pct": 41.33,
+      "fraud_rate_grupo_pct": 0.6056,
+      "fraud_rate_resto_pct": 0.8838,
+      "lift": 0.69,
+      "chi2": 491.66,
+      "p_value": 6.21491756491419e-109,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H5: 3+ tx na ultima hora",
+      "n_group": 173,
+      "n_total": 2000000,
+      "frac_grupo_pct": 0.01,
+      "fraud_rate_grupo_pct": 0.578,
+      "fraud_rate_resto_pct": 0.7688,
+      "lift": 0.75,
+      "chi2": 0.0,
+      "p_value": 1.0,
+      "significante_5pct": false
+    },
+    {
+      "hipotese": "H6: Madrugada (0-4h)",
+      "n_group": 119951,
+      "n_total": 2000000,
+      "frac_grupo_pct": 6.0,
+      "fraud_rate_grupo_pct": 2.7128,
+      "fraud_rate_resto_pct": 0.6448,
+      "lift": 4.21,
+      "chi2": 6318.27,
+      "p_value": 0.0,
+      "significante_5pct": true
+    }
+  ],
+  "cenarios_bcb": {
+    "Falso Funcionario": {
+      "n_tx": 2964,
+      "n_fraude": 1328,
+      "fraud_rate_pct": 44.804,
+      "descricao": "Vitima transfere para terceiros acreditando ser o banco"
+    },
+    "Perfil Falso": {
+      "n_tx": 255400,
+      "n_fraude": 1894,
+      "fraud_rate_pct": 0.742,
+      "descricao": "Vitima paga por produto inexistente (conta recem-criada)"
+    },
+    "Mula (conta-laranja)": {
+      "n_tx": 21371,
+      "n_fraude": 7685,
+      "fraud_rate_pct": 35.96,
+      "descricao": "Recebedor com saldo baixo antes (conta-laranja)"
+    }
+  }
+}

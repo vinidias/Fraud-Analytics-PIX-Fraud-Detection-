@@ -1,0 +1,281 @@
+{
+  "dataset": "pix-fraud-br",
+  "inspirado_em": [
+    "PixSim (arXiv 2609.30684)",
+    "ghs-mk/pixfraudeproject"
+  ],
+  "n_mules_detectadas": 26,
+  "n_merchants_total": 752461,
+  "hipoteses": [
+    {
+      "hipotese": "H1: Mula candidata (in>=3 e out>=2)",
+      "n_group": 496233,
+      "n_total": 2000000,
+      "frac_grupo_pct": 24.81,
+      "fraud_rate_grupo_pct": 0.93,
+      "fraud_rate_resto_pct": 0.7156,
+      "lift": 1.3,
+      "chi2": 224.54,
+      "p_value": 9.243446689796255e-51,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H2: Mula ativa (in>=3, out>=2, drenada)",
+      "n_group": 38501,
+      "n_total": 2000000,
+      "frac_grupo_pct": 1.93,
+      "fraud_rate_grupo_pct": 5.3765,
+      "fraud_rate_resto_pct": 0.6784,
+      "lift": 7.93,
+      "chi2": 10918.75,
+      "p_value": 0.0,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H3: Conta drenada (saldo residual < 5%)",
+      "n_group": 171221,
+      "n_total": 2000000,
+      "frac_grupo_pct": 8.56,
+      "fraud_rate_grupo_pct": 4.1414,
+      "fraud_rate_resto_pct": 0.453,
+      "lift": 9.14,
+      "chi2": 27914.3,
+      "p_value": 0.0,
+      "significante_5pct": true
+    },
+    {
+      "hipotese": "H4: Fanout ratio > 3 (recebe muito, repassa pouco)",
+      "n_group": 153930,
+      "n_total": 2000000,
+      "frac_grupo_pct": 7.7,
+      "fraud_rate_grupo_pct": 0.4411,
+      "fraud_rate_resto_pct": 0.7961,
+      "lift": 0.55,
+      "chi2": 234.27,
+      "p_value": 6.998508668647447e-53,
+      "significante_5pct": true
+    }
+  ],
+  "top_mulas": [
+    {
+      "merchant_id": "***.495.554-**",
+      "n_tx": 4,
+      "n_fraudes": 3,
+      "n_payers": 4,
+      "total_recebido": 5676917.92,
+      "avg_saldo_antes": 2004.5275,
+      "avg_amount_ratio": 0.98853375,
+      "fraud_rate": 0.75,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.914.866-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 1197543.05,
+      "avg_saldo_antes": 8359.41,
+      "avg_amount_ratio": 0.9832919999999999,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.161.798-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 3350862.6500000004,
+      "avg_saldo_antes": 2018.0033333333333,
+      "avg_amount_ratio": 0.6637586666666667,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.843.487-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 2775907.71,
+      "avg_saldo_antes": 12566.286666666667,
+      "avg_amount_ratio": 0.9858413333333332,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.611.688-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 1692168.61,
+      "avg_saldo_antes": 3549.633333333333,
+      "avg_amount_ratio": 0.9966366666666667,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.862.403-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 3972235.35,
+      "avg_saldo_antes": 14049.539999999999,
+      "avg_amount_ratio": 0.9472626666666667,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.308.803-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 11026493.17,
+      "avg_saldo_antes": 8553.053333333331,
+      "avg_amount_ratio": 0.9887670000000001,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.608.144-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 2901911.11,
+      "avg_saldo_antes": 8448.546666666667,
+      "avg_amount_ratio": 0.9938933333333333,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.947.826-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 5571092.14,
+      "avg_saldo_antes": 4495.636666666666,
+      "avg_amount_ratio": 0.990763,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.429.163-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 1470763.94,
+      "avg_saldo_antes": 3499.1233333333334,
+      "avg_amount_ratio": 0.9535066666666667,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.230.966-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 4340433.92,
+      "avg_saldo_antes": 35937.869999999995,
+      "avg_amount_ratio": 0.8921423333333333,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.886.147-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 9701162.05,
+      "avg_saldo_antes": 120017.7,
+      "avg_amount_ratio": 0.8221926666666667,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.150.445-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 9476532.51,
+      "avg_saldo_antes": 1961.1233333333332,
+      "avg_amount_ratio": 0.997135,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.925.976-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 10603522.979999999,
+      "avg_saldo_antes": 3980.9,
+      "avg_amount_ratio": 0.9916079999999999,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.920.680-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 543308.1900000001,
+      "avg_saldo_antes": 11083.733333333335,
+      "avg_amount_ratio": 0.6421513333333334,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.147.964-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 3169884.32,
+      "avg_saldo_antes": 12083.343333333336,
+      "avg_amount_ratio": 0.987712,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.132.241-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 1161363.03,
+      "avg_saldo_antes": 537.9866666666667,
+      "avg_amount_ratio": 0.998418,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.207.162-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 4745509.74,
+      "avg_saldo_antes": 8761.526666666667,
+      "avg_amount_ratio": 0.996162,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.279.654-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 2229285.01,
+      "avg_saldo_antes": 13138.593333333332,
+      "avg_amount_ratio": 0.9394383333333334,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    },
+    {
+      "merchant_id": "***.510.586-**",
+      "n_tx": 3,
+      "n_fraudes": 2,
+      "n_payers": 3,
+      "total_recebido": 75183.74,
+      "avg_saldo_antes": 1936.0766666666666,
+      "avg_amount_ratio": 0.33067433333333335,
+      "fraud_rate": 0.6666666666666666,
+      "is_mule": 1
+    }
+  ]
+}

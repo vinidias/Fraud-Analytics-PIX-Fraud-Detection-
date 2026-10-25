@@ -1,0 +1,5 @@
+politica,n_flag,n_fraudes_pegas,precision,recall,valor_recuperado,valor_perdido,custo_revisao,roi
+P1 - Sem interdição,0,0,0.0,0.0,0.0,7222859056.690001,0.0,0.0
+P2 - Regra de negocio,1557,985,0.6326,0.2044,1585163845.04,5637695211.65,23355.0,67871.57
+P3 - Modelo ML (F1 otimo),2700,104,0.0385,0.0216,482474.04,7222376582.65,40500.0,10.91
+P4 - Fila priorizada (score * valor),2700,1137,0.4211,0.2359,2942439561.17,4280419495.52,40500.0,72651.83
