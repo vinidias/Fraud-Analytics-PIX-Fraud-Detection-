@@ -1,0 +1,56 @@
+{
+  "dataset": "pix-fraud-br",
+  "inspirado_em": [
+    "PixSim (arXiv 2609.30684)"
+  ],
+  "analyst_capacity": 300,
+  "med_window_hours": 72,
+  "policies": [
+    {
+      "politica": "P1 - Sem interdição",
+      "n_flag": 0,
+      "n_fraudes_pegas": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "valor_recuperado": 0.0,
+      "valor_perdido": 7222859056.690001,
+      "custo_revisao": 0.0,
+      "roi": 0.0
+    },
+    {
+      "politica": "P2 - Regra de negocio",
+      "n_flag": 1557,
+      "n_fraudes_pegas": 985,
+      "precision": 0.6326,
+      "recall": 0.2044,
+      "valor_recuperado": 1585163845.04,
+      "valor_perdido": 5637695211.65,
+      "custo_revisao": 23355.0,
+      "roi": 67871.57
+    },
+    {
+      "politica": "P3 - Modelo ML (F1 otimo)",
+      "n_flag": 2700,
+      "n_fraudes_pegas": 104,
+      "precision": 0.0385,
+      "recall": 0.0216,
+      "valor_recuperado": 482474.04,
+      "valor_perdido": 7222376582.65,
+      "custo_revisao": 40500.0,
+      "roi": 10.91
+    },
+    {
+      "politica": "P4 - Fila priorizada (score * valor)",
+      "n_flag": 2700,
+      "n_fraudes_pegas": 1137,
+      "precision": 0.4211,
+      "recall": 0.2359,
+      "valor_recuperado": 2942439561.17,
+      "valor_perdido": 4280419495.52,
+      "custo_revisao": 40500.0,
+      "roi": 72651.83
+    }
+  ],
+  "best_roi_policy": "P4 - Fila priorizada (score * valor)",
+  "best_roi": 72651.83
+}
